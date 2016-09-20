@@ -13,7 +13,7 @@ namespace reQuest
         {
             InitializeComponent();
 
-            MainPage = new reQuest.MainPage();
+            MainPage = new NavigationPage ( new reQuest.MainPage() );
         }
 
         protected override void OnStart()

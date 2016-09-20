@@ -56,10 +56,12 @@ namespace reQuest.Backend
                 new Competency { Id = Guid.NewGuid().ToString(), ShortName = "", LongName = "Adobe Photoshop", Description = "Basic Adobe Photoshop skills", Locked = false }
             };
 
-            foreach (Competency competency in competencies)
-            {
-                context.Set<Competency>().Add(competency);
-            }
+            context.Set<Competency>().AddRange(competencies);
+
+            //foreach (Competency competency in competencies)
+            //{
+            //    context.Set<Competency>().Add(competency);
+            //}
 
             base.Seed(context);
         }

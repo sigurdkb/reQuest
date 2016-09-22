@@ -10,8 +10,8 @@
                   Android="0, 0, 0, 0"
                   WinPhone="0, 0, 0, 0" />
     </StackLayout.Padding>
-  <Label Text="reQuest"
-           VerticalOptions="Start"
-           HorizontalOptions="Center" />
+    <Label Text="reQuest" HorizontalOptions="Center" />
+    <Button x:Name="loginButton" Text="Sign in" MinimumHeightRequest="30" Clicked="loginButton_Clicked" />
+        
   </StackLayout>
 </ContentPage>

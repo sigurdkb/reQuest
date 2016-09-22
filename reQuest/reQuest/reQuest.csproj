@@ -41,7 +41,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Competency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\reQuestService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">

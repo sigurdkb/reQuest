@@ -13,5 +13,9 @@ namespace reQuest
         {
             InitializeComponent();
         }
+
+        async void loginButton_Clicked(object sender, EventArgs e)
+        {
+        }
     }
 }

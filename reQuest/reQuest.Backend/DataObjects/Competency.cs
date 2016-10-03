@@ -6,7 +6,7 @@ using System.Web;
 
 namespace reQuest.Backend.DataObjects
 {
-    public class Player : EntityData
+    public class Competency : EntityData
     {
         public string ShortName { get; set; }
         public string LongName { get; set; }

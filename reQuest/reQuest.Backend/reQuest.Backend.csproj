@@ -179,8 +179,12 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\CompetencyController.cs" />
+    <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataObjects\Competency.cs" />
+    <Compile Include="DataObjects\Topic.cs" />
     <Compile Include="DataObjects\Player.cs" />
     <Compile Include="DataObjects\Team.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />

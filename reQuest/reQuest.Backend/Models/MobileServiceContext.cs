@@ -26,8 +26,6 @@ namespace reQuest.Backend.Models
         {
         }
 
-        public DbSet<Competency> Competencies { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Add(
@@ -35,5 +33,12 @@ namespace reQuest.Backend.Models
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
 
+        public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Topic> Topics { get; set; }
+
+        public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Competency> Competencies { get; set; }
+
+        public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Player> Players { get; set; }
+
+        public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Team> Teams { get; set; }
     }
 }

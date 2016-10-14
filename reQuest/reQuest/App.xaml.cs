@@ -1,4 +1,5 @@
-﻿using reQuest.Services;
+﻿using reQuest.Interfaces;
+using reQuest.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,6 @@ using Xamarin.Forms;
 
 namespace reQuest
 {
-    public interface IAuthenticate
-    {
-        Task<bool> Authenticate();
-    }
     public partial class App : Application
     {
         public static IAuthenticate Authenticator { get; private set; }

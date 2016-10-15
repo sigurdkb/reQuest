@@ -7,7 +7,6 @@ using reQuest.Interfaces;
 using CoreBluetooth;
 using CoreLocation;
 using CoreFoundation;
-using MultipeerConnectivity;
 using Foundation;
 using UIKit;
 using reQuest.iOS;
@@ -27,29 +26,36 @@ namespace reQuest.iOS
         public event EventHandler<ILocationData> collitionDetected;
         public event EventHandler<ILocationData> distanceChanged;
 
-		NSUuid uuid;
-		NSNumber major;
-		NSNumber minor;
+		//NSUuid uuid;
 		NSNumber power;
+		//NSNumber major;
+		//NSNumber minor;
 
 		CBPeripheralManager peripheralManager;
-		NSNumberFormatter numberFormatter;
+		CLLocationManager locationManager;
+
+
+		//NSNumberFormatter numberFormatter;
 
 		public Location()
 		{
 			var peripheralDelegate = new PeripheralManagerDelegate();
 			peripheralManager = new CBPeripheralManager(peripheralDelegate, DispatchQueue.DefaultGlobalQueue);
-			numberFormatter = new NSNumberFormatter()
-			{
-				NumberStyle = NSNumberFormatterStyle.Decimal
-			};
+
+			locationManager = new CLLocationManager();
+			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
+
+			//numberFormatter = new NSNumberFormatter()
+			//{
+			//	NumberStyle = NSNumberFormatterStyle.Decimal
+			//};
 			//uuid = Defaults.DefaultProximityUuid;
 			//power = Defaults.DefaultPower;
 		}
 
 		public void StartBeacon(string beaconUUID, string beaconID)
         {
-			uuid = new NSUuid(beaconUUID);
+			var uuid = new NSUuid(beaconUUID);
 			power = new NSNumber(-59.0d);
 
 			if (peripheralManager.State < CBPeripheralManagerState.PoweredOn)
@@ -72,12 +78,21 @@ namespace reQuest.iOS
 
         public void StartTrackDistance(string beaconUUID, string beaconID)
         {
-            throw new NotImplementedException();
-        }
+			var uuid = new NSUuid(beaconUUID);
+
+			CLBeaconRegion region = new CLBeaconRegion(uuid, beaconID);
+			locationManager.StartRangingBeacons(region);
+
+		}
 
         public void StopTrackDistance()
         {
             throw new NotImplementedException();
         }
+
+		void HandleDidRangeBeacons(object sender, CLRegionBeaconsRangedEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
     }
 }

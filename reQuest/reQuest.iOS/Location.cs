@@ -25,6 +25,18 @@ namespace reQuest.iOS
     {
         public event EventHandler<ILocationData> collitionDetected;
         public event EventHandler<ILocationData> distanceChanged;
+		event EventHandler<ILocationData> ILocation.distanceChanged
+		{
+			add
+			{
+				distanceChanged += value;
+			}
+			remove
+			{
+				distanceChanged -= value;
+			}
+		}
+
 
 		//NSUuid uuid;
 		NSNumber power;
@@ -92,7 +104,16 @@ namespace reQuest.iOS
 
 		void HandleDidRangeBeacons(object sender, CLRegionBeaconsRangedEventArgs e)
 		{
-			throw new NotImplementedException();
+			foreach (CLBeacon beacon in e.Beacons)
+			{
+				var locationData = new LocationData()
+				{
+					BeaconUUID = beacon.ProximityUuid.ToString(),
+					BeaconID = beacon.Proximity.ToString(),
+					Distance = beacon.Accuracy
+				};
+				distanceChanged(this, locationData);
+			}
 		}
     }
 }

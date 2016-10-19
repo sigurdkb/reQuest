@@ -75,6 +75,7 @@
     <CodesignProvision>69f175e9-542d-4ee3-817f-fe0dbc321211</CodesignProvision>
     <CodesignKey>iPhone Developer: Sigurd Brinch (9UKSANQTSE)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>

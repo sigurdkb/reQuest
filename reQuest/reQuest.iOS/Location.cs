@@ -25,29 +25,11 @@ namespace reQuest.iOS
     {
         public event EventHandler<ILocationData> collitionDetected;
         public event EventHandler<ILocationData> distanceChanged;
-		//event EventHandler<ILocationData> ILocation.distanceChanged
-		//{
-		//	add
-		//	{
-		//		distanceChanged += value;
-		//	}
-		//	remove
-		//	{
-		//		distanceChanged -= value;
-		//	}
-		//}
 
 
-		//NSUuid uuid;
-		NSNumber power;
-		//NSNumber major;
-		//NSNumber minor;
 
 		CBPeripheralManager peripheralManager;
 		CLLocationManager locationManager;
-
-
-		//NSNumberFormatter numberFormatter;
 
 		public Location()
 		{
@@ -62,18 +44,12 @@ namespace reQuest.iOS
 
 			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
 
-			//numberFormatter = new NSNumberFormatter()
-			//{
-			//	NumberStyle = NSNumberFormatterStyle.Decimal
-			//};
-			//uuid = Defaults.DefaultProximityUuid;
-			//power = Defaults.DefaultPower;
 		}
 
 		public void StartBeacon(string beaconUUID, string beaconID)
         {
 			var uuid = new NSUuid(beaconUUID);
-			power = new NSNumber(-59.0d);
+			var power = new NSNumber(-59.0d);
 
 			if (peripheralManager.State < CBPeripheralManagerState.PoweredOn)
 			{

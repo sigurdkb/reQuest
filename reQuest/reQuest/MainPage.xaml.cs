@@ -53,7 +53,9 @@ namespace reQuest
 
 		void HandleDistanceChanged(object sender, ILocationData e)
 		{
-			locationViewModel.Distance = e.Distance;
-		}
-	}
+            locationViewModel.Distance = e.Distance;
+            locationViewModel.Latitude = e.Latitude;
+            locationViewModel.Longitude = e.Longitude;
+        }
+    }
 }

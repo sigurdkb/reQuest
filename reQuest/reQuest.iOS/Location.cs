@@ -43,10 +43,11 @@ namespace reQuest.iOS
 			}
 
 			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
+            locationManager.LocationsUpdated += HandleLocationsUpdated;
 
 		}
 
-		public void StartBeacon(string beaconUUID, string beaconID)
+        public void StartBeacon(string beaconUUID, string beaconID)
         {
 			var uuid = new NSUuid(beaconUUID);
 			var power = new NSNumber(-59.0d);
@@ -75,6 +76,7 @@ namespace reQuest.iOS
 
 			CLBeaconRegion region = new CLBeaconRegion(uuid, beaconID);
 			locationManager.StartRangingBeacons(region);
+            locationManager.StartUpdatingLocation();
 
 		}
 
@@ -96,5 +98,15 @@ namespace reQuest.iOS
 				distanceChanged(this, locationData);
 			}
 		}
+        private void HandleLocationsUpdated(object sender, CLLocationsUpdatedEventArgs e)
+        {
+            var locationData = new LocationData()
+            {
+                Latitude = e.Locations[0].Coordinate.Latitude,
+                Longitude = e.Locations[0].Coordinate.Longitude
+            };
+            distanceChanged(this, locationData);
+        }
+
     }
 }

@@ -6,9 +6,39 @@ namespace reQuest
 	public class LocationViewModel : INotifyPropertyChanged
 	{
 		double distance;
+        double latitude;
+        double longitude;
 
-		public double Latitude { get; set; }
-		public double Longitude { get; set; }
+		public double Latitude
+		{
+			get
+			{
+				return latitude;
+			}
+            set
+			{
+				if (latitude != value)
+				{
+                    latitude = value;
+                    OnPropertyChanged("Latitude");
+                }
+			}
+		}
+		public double Longitude
+		{
+			get
+			{
+				return longitude;
+			}
+			set
+			{
+				if (longitude != value)
+				{
+                    longitude = value;
+                    OnPropertyChanged(nameof(Longitude));
+				}
+			}
+		}
 		public double Distance
 		{
 			get

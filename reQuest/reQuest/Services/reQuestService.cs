@@ -28,11 +28,11 @@ namespace reQuest.Services
             client = new MobileServiceClient("https://requestbackend.azurewebsites.net");
         }
 
-        public async Task<IEnumerable<Competency>> GetCompetencies()
-        {
-            var table = client.GetTable<Competency>();
-            return await table.ReadAsync();
-        }
+        //public async Task<IEnumerable<Competency>> GetCompetencies()
+        //{
+        //    var table = client.GetTable<Competency>();
+        //    return await table.ReadAsync();
+        //}
 
 
     }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:reQuest"
@@ -12,6 +12,10 @@
     </StackLayout.Padding>
     <Label Text="reQuest" HorizontalOptions="Center" />
     <Button x:Name="loginButton" Text="Sign in" MinimumHeightRequest="30" Clicked="loginButton_Clicked" />
-        
+    <Button x:Name="startBeacon" Text="Start beacon" MinimumHeightRequest="30" Clicked="startBeacon_Clicked" />
+    <Button x:Name="stopBeacon" Text="Stop beacon" MinimumHeightRequest="30" Clicked="stopBeacon_Clicked" />
+    <Button x:Name="startRanging" Text="Start ranging" MinimumHeightRequest="30" Clicked="startRanging_Clicked" />
+    <Button x:Name="stopRanging" Text="Stop ranging" MinimumHeightRequest="30" Clicked="stopRanging_Clicked" />
+	<Label Text="{Binding Distance}" MinimumHeightRequest="30" />
   </StackLayout>
 </ContentPage>

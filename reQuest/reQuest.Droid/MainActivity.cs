@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms.Platform.Android;
 using Android.Content;
 using reQuest.Services;
+using reQuest.Interfaces;
 
 namespace reQuest.Droid
 {

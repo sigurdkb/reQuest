@@ -2,7 +2,7 @@
 
 namespace reQuest.Models
 {
-    public class Competency
+    public class Topic
     {
         [JsonProperty(PropertyName = "shortname")]
         public string ShortName { get; set; }

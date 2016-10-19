@@ -8,6 +8,7 @@ using Xamarin.Forms.Platform.iOS;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using reQuest.Services;
+using reQuest.Interfaces;
 
 namespace reQuest.iOS
 {

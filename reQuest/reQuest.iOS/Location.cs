@@ -25,17 +25,17 @@ namespace reQuest.iOS
     {
         public event EventHandler<ILocationData> collitionDetected;
         public event EventHandler<ILocationData> distanceChanged;
-		event EventHandler<ILocationData> ILocation.distanceChanged
-		{
-			add
-			{
-				distanceChanged += value;
-			}
-			remove
-			{
-				distanceChanged -= value;
-			}
-		}
+		//event EventHandler<ILocationData> ILocation.distanceChanged
+		//{
+		//	add
+		//	{
+		//		distanceChanged += value;
+		//	}
+		//	remove
+		//	{
+		//		distanceChanged -= value;
+		//	}
+		//}
 
 
 		//NSUuid uuid;
@@ -55,6 +55,11 @@ namespace reQuest.iOS
 			peripheralManager = new CBPeripheralManager(peripheralDelegate, DispatchQueue.DefaultGlobalQueue);
 
 			locationManager = new CLLocationManager();
+			if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+			{
+				locationManager.RequestWhenInUseAuthorization();
+			}
+
 			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
 
 			//numberFormatter = new NSNumberFormatter()

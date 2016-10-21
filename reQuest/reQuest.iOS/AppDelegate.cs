@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using reQuest.Services;
 using reQuest.Interfaces;
+using Xamarin.Forms.GoogleMaps;
 
 namespace reQuest.iOS
 {
@@ -31,6 +32,7 @@ namespace reQuest.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+			Xamarin.FormsGoogleMaps.Init("AIzaSyDitF8S4q5FZjklRCT-RyuP4-KfuCMrgI4");
 
             App.Init(this);
 

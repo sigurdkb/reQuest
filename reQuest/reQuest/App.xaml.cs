@@ -23,7 +23,7 @@ namespace reQuest
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+			MainPage = new GamePage();
         }
 
         protected override void OnStart()

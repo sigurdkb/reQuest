@@ -30,6 +30,7 @@ namespace reQuest.iOS
 
 		CBPeripheralManager peripheralManager;
 		CLLocationManager locationManager;
+		LocationData locationData;
 
 		public Location()
 		{
@@ -44,6 +45,7 @@ namespace reQuest.iOS
 
 			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
             locationManager.LocationsUpdated += HandleLocationsUpdated;
+			locationData = new LocationData();
 
 		}
 
@@ -89,22 +91,16 @@ namespace reQuest.iOS
 		{
 			foreach (CLBeacon beacon in e.Beacons)
 			{
-				var locationData = new LocationData()
-				{
-					BeaconUUID = beacon.ProximityUuid.ToString(),
-					BeaconID = beacon.Proximity.ToString(),
-					Distance = beacon.Accuracy
-				};
+				locationData.BeaconUUID = beacon.ProximityUuid.ToString();
+				locationData.BeaconID = beacon.Proximity.ToString();
+				locationData.Distance = beacon.Accuracy;
 				distanceChanged(this, locationData);
 			}
 		}
         private void HandleLocationsUpdated(object sender, CLLocationsUpdatedEventArgs e)
         {
-            var locationData = new LocationData()
-            {
-                Latitude = e.Locations[0].Coordinate.Latitude,
-                Longitude = e.Locations[0].Coordinate.Longitude
-            };
+			locationData.Latitude = e.Locations[0].Coordinate.Latitude;
+			locationData.Longitude = e.Locations[0].Coordinate.Longitude;
             distanceChanged(this, locationData);
         }
 

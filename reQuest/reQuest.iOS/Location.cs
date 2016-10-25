@@ -21,7 +21,17 @@ namespace reQuest.iOS
 		}
 	}
 
-    public class Location : ILocation
+	public class LocationData : EventArgs, ILocationData
+	{
+		public double Latitude { get; set; }
+		public double Longitude { get; set; }
+		public double Distance { get; set; }
+		public string BeaconUUID { get; set; }
+		public string BeaconID { get; set; }
+
+	}
+
+	public class Location : ILocation
     {
         public event EventHandler<ILocationData> collitionDetected;
         public event EventHandler<ILocationData> distanceChanged;

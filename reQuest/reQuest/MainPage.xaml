@@ -11,7 +11,6 @@
                   WinPhone="0, 0, 0, 0" />
     </StackLayout.Padding>
     <Label Text="reQuest" HorizontalOptions="Center" />
-    <Button x:Name="loginButton" Text="Sign in" MinimumHeightRequest="30" Clicked="loginButton_Clicked" />
     <Button x:Name="startBeacon" Text="Start beacon" MinimumHeightRequest="30" Clicked="startBeacon_Clicked" />
     <Button x:Name="stopBeacon" Text="Stop beacon" MinimumHeightRequest="30" Clicked="stopBeacon_Clicked" />
     <Button x:Name="startRanging" Text="Start ranging" MinimumHeightRequest="30" Clicked="startRanging_Clicked" />

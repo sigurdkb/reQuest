@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace reQuest.Interfaces
 {
-    public interface IAuthenticate
+	public interface IAuthenticateData
+	{
+		string UserID { get; set; }
+		string UserToken { get; set; }
+	}
+ 
+	public interface IAuthenticate
     {
         Task<bool> Authenticate();
+
+		event EventHandler<IAuthenticateData> userAuthenticated;
+
     }
+
 }

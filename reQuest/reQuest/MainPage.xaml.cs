@@ -9,7 +9,6 @@ namespace reQuest
 {
     public partial class MainPage : ContentPage
     {
-		bool authenticated = false;
 		LocationViewModel locationViewModel = new LocationViewModel();
 
         public MainPage()
@@ -18,13 +17,6 @@ namespace reQuest
 			BindingContext = locationViewModel;
         }
 
-		async void loginButton_Clicked(object sender, EventArgs e)
-		{
-			if (App.Authenticator != null)
-			{
-				authenticated = await App.Authenticator.Authenticate();
-			}
-		}
 		void startBeacon_Clicked(object sender, EventArgs e) 
 		{
 			if (App.Location != null)

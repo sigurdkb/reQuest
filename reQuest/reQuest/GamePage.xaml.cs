@@ -15,9 +15,9 @@ namespace reQuest
 			InitializeComponent();
 			BindingContext = gameViewModel;
 
-			gameViewModel.Players.Add("mariub06", new Position(58.3339d, 8.5773d));
+			gameViewModel.Players.Add("mariub06", new Position(58.3340d, 8.5774d));
 			gameViewModel.Players.Add("sigurdkb", new Position(58.3338d, 8.5772d));
-			gameViewModel.Players.Add("josteinn", new Position(58.3337d, 8.5771d));
+			gameViewModel.Players.Add("josteinn", new Position(58.3336d, 8.5770d));
 			gameViewModel.Player = "mariub06";
 			gameViewModel.Target = "sigurdkb";
 

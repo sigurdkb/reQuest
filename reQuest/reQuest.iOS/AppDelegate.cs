@@ -13,22 +13,32 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace reQuest.iOS
 {
+	public class AuthenticateData : EventArgs, IAuthenticateData
+	{
+		public string UserID { get; set; }
+		public string UserToken { get; set; }
+
+	}
+
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
     public partial class AppDelegate : FormsApplicationDelegate, IAuthenticate
     {
-        // Define a authenticated user.
-        private MobileServiceUser user;
-        //
-        // This method is invoked when the application has loaded and is ready to run. In this 
-        // method you should instantiate the window, load the UI into it and then make the window
-        // visible.
-        //
-        // You have 17 seconds to return from this method, or iOS will terminate your application.
-        //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+		// Define a authenticated user.
+		private MobileServiceUser user;
+
+		public event EventHandler<IAuthenticateData> userAuthenticated;
+
+		//
+		// This method is invoked when the application has loaded and is ready to run. In this 
+		// method you should instantiate the window, load the UI into it and then make the window
+		// visible.
+		//
+		// You have 17 seconds to return from this method, or iOS will terminate your application.
+		//
+		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
@@ -56,6 +66,12 @@ namespace reQuest.iOS
                     {
                         message = string.Format("You are now signed-in as {0}.", user.UserId);
 						success = true;
+
+						var authenticateData = new AuthenticateData();
+						authenticateData.UserID = String.Copy(user.UserId);
+						authenticateData.UserToken = String.Copy(user.MobileServiceAuthenticationToken);
+						userAuthenticated(this, authenticateData);
+
                     }
                 }
             }

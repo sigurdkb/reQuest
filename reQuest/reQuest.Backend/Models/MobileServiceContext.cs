@@ -40,5 +40,9 @@ namespace reQuest.Backend.Models
         public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Player> Players { get; set; }
 
         public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Team> Teams { get; set; }
+
+        public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Game> Games { get; set; }
+
+        public System.Data.Entity.DbSet<reQuest.Backend.DataObjects.Quest> Quests { get; set; }
     }
 }

@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:reQuest"
-             x:Class="reQuest.MainPage">
-  <StackLayout>
-    <StackLayout.Padding>
-      <OnPlatform x:TypeArguments="Thickness"
+<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			  xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+              x:Class="reQuest.MainPage">
+	
+    <ContentPage x:Name="teamMapPage" Title="Team members">
+		<ContentPage.Padding>
+      		<OnPlatform x:TypeArguments="Thickness"
                   iOS="0, 20, 0, 0"
                   Android="0, 0, 0, 0"
                   WinPhone="0, 0, 0, 0" />
-    </StackLayout.Padding>
-    <Label Text="reQuest" HorizontalOptions="Center" />
-    <Button x:Name="startBeacon" Text="Start beacon" MinimumHeightRequest="30" Clicked="startBeacon_Clicked" />
-    <Button x:Name="stopBeacon" Text="Stop beacon" MinimumHeightRequest="30" Clicked="stopBeacon_Clicked" />
-    <Button x:Name="startRanging" Text="Start ranging" MinimumHeightRequest="30" Clicked="startRanging_Clicked" />
-    <Button x:Name="stopRanging" Text="Stop ranging" MinimumHeightRequest="30" Clicked="stopRanging_Clicked" />
-	<Label Text="{Binding Distance}" MinimumHeightRequest="30" />
-    <Label Text="{Binding Latitude}" MinimumHeightRequest="30" />
-    <Label Text="{Binding Longitude}" MinimumHeightRequest="30" />
-  </StackLayout>
-</ContentPage>
+        </ContentPage.Padding>
+
+        <StackLayout>
+	    	<maps:Map VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+	        x:Name="TeamMap"
+	        IsShowingUser="true"
+	        MapType="Street"
+			HasScrollEnabled="false"
+			InputTransparent="true"
+	    	/>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage x:Name="mainStartPage" Title="reQuests">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem x:Name="teammapToolbarItem" Icon="maps-icon.png" Text="TeamMap" Clicked="onTeammapClicked" />
+		<ToolbarItem x:Name="addAcquaintanceToolbarItem" Icon="edit-icon.png" Text="New" />
+		<ToolbarItem x:Name="settingsToolbarItem" Icon="settings-icon.png" Text="Settings" />
+	</ContentPage.ToolbarItems>
+
+        <ContentPage.Padding>
+      		<OnPlatform x:TypeArguments="Thickness"
+                  iOS="0, 20, 0, 0"
+                  Android="0, 0, 0, 0"
+                  WinPhone="0, 0, 0, 0" />
+        </ContentPage.Padding>
+        <StackLayout>
+            <Label Text="Blue" FontSize="Medium" HorizontalOptions="Center" />
+            <BoxView Color="Blue" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="Profile">
+        <ContentPage.Padding>
+      		<OnPlatform x:TypeArguments="Thickness"
+                  iOS="0, 20, 0, 0"
+                  Android="0, 0, 0, 0"
+                  WinPhone="0, 0, 0, 0" />
+        </ContentPage.Padding>
+        <StackLayout>
+            <Label Text="Green" FontSize="Medium" HorizontalOptions="Center" />
+            <BoxView Color="Green" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage>
+</CarouselPage>

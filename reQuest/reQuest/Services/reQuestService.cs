@@ -40,10 +40,18 @@ namespace reQuest.Services
 			return result;
 		}
 
-		public async Task<IEnumerable<Player>> GetPlayer()
+		public async Task<IEnumerable<Player>> GetPlayers()
 		{
-			var table = client.GetTable<Player>();
-			return await table.ReadAsync();
+			IMobileServiceTable<Player> table = client.GetTable<Player>();
+			var players = await table.ReadAsync();
+			return players;
+		}
+
+		public async Task<Player> UpdatePlayer(Player player)
+		{
+			IMobileServiceTable<Player> table = client.GetTable<Player>();
+			await table.UpdateAsync(player);
+			return await table.LookupAsync(player.Id);
 		}
 
 

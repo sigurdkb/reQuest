@@ -35,7 +35,7 @@ namespace reQuest
 
 		void handleUserAuthenticated(object sender, IAuthenticateData e)
 		{
-			registrationViewModel.ExternalID = e.UserID;
+			//registrationViewModel.ExternalID = e.UserID;
 			registrationViewModel.ExternalToken = e.UserToken;
 		}
 }

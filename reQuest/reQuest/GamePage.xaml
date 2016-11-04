@@ -17,6 +17,13 @@
 	        IsShowingUser="true"
 	        MapType="Street"
 	    	/>
+			<StackLayout MinimumHeightRequest="35" Orientation="Horizontal">
+				<Label Text="Target? " />
+				<Switch x:Name="Target" IsToggled="false" />
+				<Label Text="Distance: " />
+				<Label Text="{Binding DistanceToTarget}" />
+
+    		</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

@@ -75,7 +75,7 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <CodesignKey>iPhone Developer: Sigurd Brinch (7CH7UY65LH)</CodesignKey>
+    <CodesignKey>iPhone Developer: Sigurd Brinch (9UKSANQTSE)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchDebug>true</MtouchDebug>
     <CodesignProvision>46704a54-19de-40cf-af27-958d6d10d898</CodesignProvision>
@@ -121,6 +121,16 @@
     <BundleResource Include="Resources\Icon-Small%402x.png" />
     <BundleResource Include="Resources\Icon-Small%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <BundleResource Include="Resources\reQuest-Logo.png" />
+    <BundleResource Include="Resources\maps-icon.png" />
+    <BundleResource Include="Resources\maps-icon%402x.png" />
+    <BundleResource Include="Resources\maps-icon%403x.png" />
+    <BundleResource Include="Resources\edit-icon.png" />
+    <BundleResource Include="Resources\edit-icon%402x.png" />
+    <BundleResource Include="Resources\edit-icon%403x.png" />
+    <BundleResource Include="Resources\settings-icon.png" />
+    <BundleResource Include="Resources\settings-icon%402x.png" />
+    <BundleResource Include="Resources\settings-icon%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAzure.Mobile, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

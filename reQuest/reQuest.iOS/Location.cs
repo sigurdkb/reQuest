@@ -88,7 +88,8 @@ namespace reQuest.iOS
 
 			CLBeaconRegion region = new CLBeaconRegion(uuid, beaconID);
 			locationManager.StartRangingBeacons(region);
-            locationManager.StartUpdatingLocation();
+			locationManager.DesiredAccuracy = 10;
+			locationManager.StartUpdatingLocation();
 
 		}
 

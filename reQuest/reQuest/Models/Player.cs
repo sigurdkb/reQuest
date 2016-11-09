@@ -7,7 +7,8 @@ namespace reQuest
 {
 	public class Player
 	{
-		public string Id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 		[JsonProperty(PropertyName = "externalId")]
 		public string ExternalId { get; set; }
 		[JsonProperty(PropertyName = "competencies")]

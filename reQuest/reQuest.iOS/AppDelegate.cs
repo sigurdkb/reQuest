@@ -40,6 +40,8 @@ namespace reQuest.iOS
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Rox.CameraIos.Init();
+
             global::Xamarin.Forms.Forms.Init();
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			Xamarin.FormsGoogleMaps.Init("AIzaSyDitF8S4q5FZjklRCT-RyuP4-KfuCMrgI4");

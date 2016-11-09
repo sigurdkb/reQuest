@@ -11,6 +11,7 @@ namespace reQuest
 {
     public partial class App : Application
     {
+        public static object UIContext { get; set; }
         public static IAuthenticate Authenticator { get; private set; }
 		public static ILocation Location { get; private set; }
 

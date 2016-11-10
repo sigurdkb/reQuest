@@ -14,6 +14,7 @@ namespace reQuest.Services
     class QuestFileSyncHandler : IFileSyncHandler
     {
         private readonly reQuestService reQuestService;
+
         public QuestFileSyncHandler(reQuestService service)
         {
             this.reQuestService = service;

@@ -66,8 +66,8 @@ namespace reQuest
 			}
 			else
 			{
-				App.Location.StartTrackDistance("E2C56DB5-DFFB-48D2-B060-D0F5A71096E0", "reQuest");
-				App.Location.distanceChanged += HandleDistanceChanged;
+				App.Location.StartBeaconRanging("E2C56DB5-DFFB-48D2-B060-D0F5A71096E0", "reQuest");
+				App.Location.positionChanged += HandlePositionChanged;
 			}
 
 			var result = await UpdateGame();
@@ -75,7 +75,7 @@ namespace reQuest
 			return result;
 		}
 
-		async void HandleDistanceChanged(object sender, ILocationData e)
+		async void HandlePositionChanged(object sender, IGPSData e)
 		{
 			if (currentPlayer != null)
 			{

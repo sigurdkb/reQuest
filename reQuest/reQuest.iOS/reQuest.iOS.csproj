@@ -27,7 +27,7 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: Sigurd Brinch (7CH7UY65LH)</CodesignKey>
+    <CodesignKey>iPhone Developer: Sigurd Brinch (9UKSANQTSE)</CodesignKey>
     <CodesignProvision>46704a54-19de-40cf-af27-958d6d10d898</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer: Sigurd Brinch (7CH7UY65LH)</CodesignKey>
+    <CodesignKey>iPhone Developer: Sigurd Brinch (9UKSANQTSE)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignProvision>46704a54-19de-40cf-af27-958d6d10d898</CodesignProvision>
   </PropertyGroup>

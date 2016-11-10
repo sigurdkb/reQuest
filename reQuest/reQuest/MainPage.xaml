@@ -66,7 +66,20 @@
         </Grid>
       </StackLayout>-->
       <ListView x:Name="questList" IsPullToRefreshEnabled="true" Refreshing="OnRefresh" Grid.Row="1">
-        <ListView.ItemTemplate>
+<!--		    <ListView x:Name="imagesList"
+              ItemsSource="{Binding Images}"
+              IsPullToRefreshEnabled="false"
+              Grid.Row="2">
+-->      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ImageCell ImageSource="maps-icon.png"
+                     Text="{Binding Title}">
+          </ImageCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    
+
+<!--        <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
               <ViewCell.ContextActions>
@@ -74,13 +87,14 @@
               </ViewCell.ContextActions>
               <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal" Padding="15,5,0,0">
                 <StackLayout Padding="5,0,0,0" VerticalOptions="StartAndExpand" Orientation="Vertical">
+				  <ImageCell ImageSource="maps-icon.png" />
                   <Label Text="{Binding Title}"  />
                 </StackLayout>
               </StackLayout>
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
-      </ListView>
+-->   </ListView>
     </Grid>
   </ContentPage>
   <ContentPage x:Name="profilePage" Title="Profile">

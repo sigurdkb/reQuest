@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="reQuest.AddQuestPage">
@@ -33,9 +33,9 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Entry Grid.Row="0" x:Name="newQuestTitle" Placeholder="reQuest title" Text="{Binding Title, Mode=TwoWay}"/>
-    <Image Grid.Column="0" Grid.Row="1" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" />
-    <Button Grid.Column="0" Grid.Row="2" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Command="{Binding AcquirePictureCommand}" />
+    <Entry Grid.Row="0" x:Name="title" Placeholder="reQuest title" />
+    <Image Grid.Column="0" Grid.Row="1" x:Name="image" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Source="reQuest-Logo.png" />
+    <Button Grid.Column="0" Grid.Row="2" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcquireClicked" />
     <Button Grid.Row="3" Clicked="OnAdd" Text="Add reQuest"></Button>
 
   </Grid>

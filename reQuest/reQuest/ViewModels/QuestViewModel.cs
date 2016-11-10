@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace reQuest.ViewModels
 {
@@ -63,13 +64,18 @@ namespace reQuest.ViewModels
         public ImageSource ImageSource
         {
             get { return imageSource; }
-        }
+			set
+			{
+				imageSource = value;
+				OnPropertyChanged(nameof(ImageSource));
+			}
+		}
 
         //public MobileServiceFile File { get; private set; }
 
         public QuestViewModel()
         {
-            imageSource = ImageSource.FromResource("reQuest-Logo.png");
+            //imageSource = ImageSource.FromResource("reQuest-Logo.png");
         }
 
         //public QuestViewModel(MobileServiceFile file, Quest quest)
@@ -78,34 +84,35 @@ namespace reQuest.ViewModels
         //    FileHelper.GetLocalFilePathAsync(quest.Id, file.Name).ContinueWith(x => this.Uri = x.Result);
         //}
 
-        public ICommand AcquirePictureCommand
-        {
-            get
-            {
-                return new Command(async () =>
-                {
-                    await CrossMedia.Current.Initialize();
-                    //if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-                    //{
-                    //    DisplayAlert("No Camera", ":( No camera available.", "OK");
-                    //    return;
-                    //}
-                    var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                    {
-                        Directory = "reQuest",
-                        Name = "test.jpg"
-                    });
-                    if (file == null)
-                        return;
+    //    public ICommand AcquirePictureCommand
+    //    {
+    //        get
+    //        {
+				//return new Command(async () =>
+    //            {
+    //                await CrossMedia.Current.Initialize();
+    //                //if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+    //                //{
+    //                //    DisplayAlert("No Camera", ":( No camera available.", "OK");
+    //                //    return;
+    //                //}
+    //                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+    //                {
+    //                    Directory = "reQuest",
+    //                    Name = "test.jpg"
+    //                });
+    //                if (file == null)
+    //                    return;
 
-                    //await DisplayAlert("File Location", file.Path, "OK");
+				//	//await DisplayAlert("File Location", file.Path, "OK");
+				//	Debug.WriteLine($"File Location: {file.Path}");
 
-                    imageSource = ImageSource.FromUri(new Uri(file.Path));
+    //                imageSource = ImageSource.FromUri(new Uri(file.Path));
 
-                    OnPropertyChanged(nameof(ImageSource));
-                });
-            }
-        }
+    //                OnPropertyChanged(nameof(ImageSource));
+    //            });
+    //        }
+    //    }
 
 
 

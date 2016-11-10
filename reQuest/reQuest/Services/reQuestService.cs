@@ -150,8 +150,8 @@ namespace reQuest.Services
 
         internal async Task DownloadFileAsync(MobileServiceFile file)
         {
-            var todoItem = await questTable.LookupAsync(file.ParentId);
-            IPlatform platform = DependencyService.Get<IPlatform>();
+            var quest = await questTable.LookupAsync(file.ParentId);
+			IPlatform platform = DependencyService.Get<IPlatform>();
 
             string filePath = await FileHelper.GetLocalFilePathAsync(file.ParentId, file.Name);
             await platform.DownloadFileAsync(this.questTable, file, filePath);
@@ -159,8 +159,8 @@ namespace reQuest.Services
 
         internal async Task<MobileServiceFile> AddImage(Quest quest, string imagePath)
         {
-            //string targetPath = await FileHelper.CopyQuestFileAsync(quest.Id, imagePath);
-            return await this.questTable.AddFileAsync(quest, Path.GetFileName(imagePath));
+            string targetPath = await FileHelper.CopyQuestFileAsync(quest.Id, imagePath);
+			return await this.questTable.AddFileAsync(quest, Path.GetFileName(targetPath));
         }
 
         internal async Task DeleteImage(Quest quest, MobileServiceFile file)
@@ -172,5 +172,6 @@ namespace reQuest.Services
         {
             return await this.questTable.GetFilesAsync(quest);
         }
-    }
+
+	}
 }

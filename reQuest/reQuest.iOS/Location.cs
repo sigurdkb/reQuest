@@ -21,10 +21,13 @@ namespace reQuest.iOS
 		}
 	}
 
-	public class LocationData : EventArgs, ILocationData
+	public class GPSData : EventArgs, IGPSData
 	{
 		public double Latitude { get; set; }
 		public double Longitude { get; set; }
+	}
+	public class BTData : EventArgs, IBTData
+	{
 		public double Distance { get; set; }
 		public string BeaconUUID { get; set; }
 		public string BeaconID { get; set; }
@@ -33,14 +36,15 @@ namespace reQuest.iOS
 
 	public class Location : ILocation
     {
-        public event EventHandler<ILocationData> collitionDetected;
-        public event EventHandler<ILocationData> distanceChanged;
+        public event EventHandler<IBTData> collitionDetected;
+        public event EventHandler<IGPSData> positionChanged;
 
 
 
 		CBPeripheralManager peripheralManager;
 		CLLocationManager locationManager;
-		LocationData locationData;
+		//GPSData gpsData;
+		//BTData btData;
 
 		public Location()
 		{
@@ -55,7 +59,8 @@ namespace reQuest.iOS
 
 			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
             locationManager.LocationsUpdated += HandleLocationsUpdated;
-			locationData = new LocationData();
+			//gpsData = new GPSData();
+			//btData = new BTData();
 
 		}
 
@@ -82,7 +87,7 @@ namespace reQuest.iOS
 			peripheralManager.StopAdvertising();
         }
 
-        public void StartTrackDistance(string beaconUUID, string beaconID)
+        public void StartBeaconRanging(string beaconUUID, string beaconID)
         {
 			var uuid = new NSUuid(beaconUUID);
 
@@ -93,7 +98,7 @@ namespace reQuest.iOS
 
 		}
 
-        public void StopTrackDistance()
+        public void StopBeaconRangin()
         {
             throw new NotImplementedException();
         }
@@ -102,18 +107,34 @@ namespace reQuest.iOS
 		{
 			foreach (CLBeacon beacon in e.Beacons)
 			{
-				locationData.BeaconUUID = beacon.ProximityUuid.ToString();
-				locationData.BeaconID = beacon.Proximity.ToString();
-				locationData.Distance = beacon.Accuracy;
-				distanceChanged(this, locationData);
+				var btData = new BTData();
+				btData.BeaconUUID = beacon.ProximityUuid.ToString();
+				btData.BeaconID = beacon.Proximity.ToString();
+				btData.Distance = beacon.Accuracy;
+				collitionDetected(this, btData);
 			}
 		}
         private void HandleLocationsUpdated(object sender, CLLocationsUpdatedEventArgs e)
         {
-			locationData.Latitude = e.Locations[0].Coordinate.Latitude;
-			locationData.Longitude = e.Locations[0].Coordinate.Longitude;
-            distanceChanged(this, locationData);
+			var gpsData = new GPSData();
+			gpsData.Latitude = e.Locations[0].Coordinate.Latitude;
+			gpsData.Longitude = e.Locations[0].Coordinate.Longitude;
+			positionChanged(this, gpsData);
         }
 
-    }
+		public void StopBeaconRanging()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void StartLocationTracking()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void StopLocationTracking()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

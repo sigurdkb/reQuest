@@ -159,8 +159,8 @@ namespace reQuest.Services
 
         internal async Task<MobileServiceFile> AddImage(Quest quest, string imagePath)
         {
-            string targetPath = await FileHelper.CopyQuestFileAsync(quest.Id, imagePath);
-            return await this.questTable.AddFileAsync(quest, Path.GetFileName(targetPath));
+            //string targetPath = await FileHelper.CopyQuestFileAsync(quest.Id, imagePath);
+            return await this.questTable.AddFileAsync(quest, Path.GetFileName(imagePath));
         }
 
         internal async Task DeleteImage(Quest quest, MobileServiceFile file)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.WindowsAzure.MobileServices.Files;
+using Plugin.Media;
 using reQuest.Models;
 using reQuest.Services;
-using Rox;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,7 +69,7 @@ namespace reQuest.ViewModels
 
         public QuestViewModel()
         {
-
+            imageSource = ImageSource.FromResource("reQuest-Logo.png");
         }
 
         //public QuestViewModel(MobileServiceFile file, Quest quest)
@@ -84,9 +84,23 @@ namespace reQuest.ViewModels
             {
                 return new Command(async () =>
                 {
-                    ICameraProvider cameraProvider = DependencyService.Get<ICameraProvider>();
+                    await CrossMedia.Current.Initialize();
+                    //if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                    //{
+                    //    DisplayAlert("No Camera", ":( No camera available.", "OK");
+                    //    return;
+                    //}
+                    var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                    {
+                        Directory = "reQuest",
+                        Name = "test.jpg"
+                    });
+                    if (file == null)
+                        return;
 
-                    imageSource = await cameraProvider.AcquirePicture();
+                    //await DisplayAlert("File Location", file.Path, "OK");
+
+                    imageSource = ImageSource.FromUri(new Uri(file.Path));
 
                     OnPropertyChanged(nameof(ImageSource));
                 });

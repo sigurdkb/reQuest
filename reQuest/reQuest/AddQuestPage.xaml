@@ -28,13 +28,15 @@
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Image Grid.Column="0" Grid.Row="0" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" />
-    <Button Grid.Column="0" Grid.Row="1" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Command="{Binding AcquirePictureCommand}" />
-    <Entry x:Name="newQuestTitle" Placeholder="reQuest title" Text="{Binding Title}"/>
-    <Button Clicked="OnAdd" Text="Add reQuest"></Button>
+    <Entry Grid.Row="0" x:Name="newQuestTitle" Placeholder="reQuest title" Text="{Binding Title, Mode=TwoWay}"/>
+    <Image Grid.Column="0" Grid.Row="1" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" />
+    <Button Grid.Column="0" Grid.Row="2" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Command="{Binding AcquirePictureCommand}" />
+    <Button Grid.Row="3" Clicked="OnAdd" Text="Add reQuest"></Button>
 
   </Grid>
 </ContentPage>

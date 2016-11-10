@@ -43,7 +43,7 @@ namespace reQuest.iOS
 
         public Task<string> GetQuestFilesPathAsync()
         {
-            string filesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "QuestFiles");
+            string filesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "reQuest");
 
             if (!Directory.Exists(filesPath))
             {

@@ -47,7 +47,7 @@
                          IsVisible="False"
                          IsEnabled="True"
                          x:Name="syncIndicator"/>
-      <StackLayout Grid.Row="0" BackgroundColor="#5ABAFF" Padding="10,30,10,5">
+      <!--<StackLayout Grid.Row="0" BackgroundColor="#5ABAFF" Padding="10,30,10,5">
         <Label TextColor="#555555" Text="Azure App Service" />
         <Grid>
           <Grid.ColumnDefinitions>
@@ -57,14 +57,14 @@
           <Entry x:Name="newItemName"
                     Placeholder="Item name" />
           <StackLayout x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-            <!--<Button Text="+"
+            --><!--<Button Text="+"
                     MinimumHeightRequest="30"
                     Clicked="OnAdd" />
             <Button x:Name="loginButton" Text="Sign-in" MinimumHeightRequest="30"
-                  Clicked="loginButton_Clicked"/>-->
+                  Clicked="loginButton_Clicked"/>--><!--
           </StackLayout>
         </Grid>
-      </StackLayout>
+      </StackLayout>-->
       <ListView x:Name="questList" IsPullToRefreshEnabled="true" Refreshing="OnRefresh" Grid.Row="1">
         <ListView.ItemTemplate>
           <DataTemplate>

@@ -75,9 +75,13 @@ namespace reQuest.Services
                 {
                     await this.SyncAsync();
                 }
-                IEnumerable<Quest> items = await questTable.ToEnumerableAsync();
+				IMobileServiceTableQuery<Quest> questQuery = questTable.CreateQuery();
+				var questParameters = new Dictionary<string, string>() { { "$expand", "Topic,Owner" } };
+				IEnumerable<Quest> expandedQuests = await questTable.ReadAsync<Quest>(questQuery.WithParameters(questParameters));
 
-                return new ObservableCollection<Quest>(items);
+				return new ObservableCollection<Quest>(expandedQuests);
+				//IEnumerable<Quest> items = await questTable.ToEnumerableAsync();
+				//return new ObservableCollection<Quest>(items);
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -150,18 +154,16 @@ namespace reQuest.Services
 
         internal async Task DownloadFileAsync(MobileServiceFile file)
         {
-            var quest = await questTable.LookupAsync(file.ParentId);
 			IPlatform platform = DependencyService.Get<IPlatform>();
 
-            string filePath = await FileHelper.GetLocalFilePathAsync(file.ParentId, file.Name);
-            await platform.DownloadFileAsync(this.questTable, file, filePath);
+            await platform.DownloadFileAsync(this.questTable, file);
         }
 
         internal async Task<MobileServiceFile> AddImage(Quest quest, string imagePath)
         {
-            string targetPath = await FileHelper.CopyQuestFileAsync(quest.Id, imagePath);
-			return await this.questTable.AddFileAsync(quest, Path.GetFileName(targetPath));
-        }
+			Debug.WriteLine($"reQuestService:AddImage: {imagePath}");
+			return await this.questTable.AddFileAsync(quest, imagePath);
+		}
 
         internal async Task DeleteImage(Quest quest, MobileServiceFile file)
         {

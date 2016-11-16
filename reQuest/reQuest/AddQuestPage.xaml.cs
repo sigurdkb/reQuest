@@ -12,6 +12,7 @@ using reQuest.ViewModels;
 using reQuest.Interfaces;
 using Plugin.Media;
 using System.Diagnostics;
+using System.IO;
 
 namespace reQuest
 {
@@ -19,43 +20,45 @@ namespace reQuest
     {
         private reQuestService service;
 
-        //public Quest Quest { get; set; }
-        //public ObservableCollection<QuestImage> Images { get; set; }
-        public QuestViewModel questViewModel = new QuestViewModel();
+		//public Quest Quest { get; set; }
+		//public ObservableCollection<QuestImage> Images { get; set; }
+		//public QuestViewModel QuestViewModel { get; set; } = new QuestViewModel();
 
 
         public AddQuestPage()
         {
             InitializeComponent();
-            this.BindingContext = questViewModel;
+            //this.BindingContext = QuestViewModel;
             service = reQuestService.DefaultManager;
 
         }
 
-        public async void OnAdd(object sender, EventArgs e)
-        {
+   //     public async void OnAdd(object sender, EventArgs e)
+   //     {
 			//var quest = new Quest { Title = title.Text };
    //         await service.SaveQuestAsync(quest);
 
 
-   //         //IPlatform mediaProvider = DependencyService.Get<IPlatform>();
-
-   //         //string sourceImagePath = await mediaProvider.TakePhotoAsync(App.UIContext);
 
 			//if (image.Source != null)
-   //         {
-			//	string imagePath = image.Source.GetValue(UriImageSource.UriProperty).ToString();
-			//	MobileServiceFile file = await this.service.AddImage(quest, imagePath);
+			//{
+			//	FileHelper.GetLocalFilePathAsync(quest.Id, Path.GetFileName(QuestViewModel.Uri)).ContinueWith(x => QuestViewModel.Uri = x.Result);
+			//	Debug.WriteLine($"File Location: {QuestViewModel.Uri}");
+			//	MobileServiceFile file = await this.service.AddImage(quest, QuestViewModel.Uri);
 
    //         }
 
-            //newQuestTitle.Text = string.Empty;
-            //newQuestTitle.Unfocus();
-        }
+   //         //newQuestTitle.Text = string.Empty;
+   //         //newQuestTitle.Unfocus();
+   //     }
 
 		public async void OnAcquireClicked(object sender, EventArgs e)
 		{ 
+			var quest = new Quest { Title = title.Text };
+			await service.SaveQuestAsync(quest);
+
 			await CrossMedia.Current.Initialize();
+
 			//if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
 			//{
 			//    DisplayAlert("No Camera", ":( No camera available.", "OK");
@@ -64,27 +67,17 @@ namespace reQuest
 			var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
 			{
 				Directory = "reQuest",
-				Name = "test.jpg"
+				Name = quest.Id + ".jpg"
 			});
 			if (file == null)
 				return;
 
-			//await DisplayAlert("File Location", file.Path, "OK");
 			Debug.WriteLine($"File Location: {file.Path}");
+			//QuestViewModel.Uri = file.Path;
 
-			var quest = new Quest { Title = title.Text };
-			await service.SaveQuestAsync(quest);
+			var msfile = await this.service.AddImage(quest, file.Path);
+			Debug.WriteLine($"msfile: {msfile.StoreUri}");
 
-
-			//IPlatform mediaProvider = DependencyService.Get<IPlatform>();
-
-			//string sourceImagePath = await mediaProvider.TakePhotoAsync(App.UIContext);
-
-			if (image.Source != null)
-			{
-				await this.service.AddImage(quest, file.Path);
-
-			}
 
 
 			//image.Source = ImageSource.FromUri(new Uri(file.Path));

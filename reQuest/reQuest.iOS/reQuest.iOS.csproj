@@ -250,6 +250,12 @@
     <Reference Include="Xamarin.Forms.GoogleMaps.iOS">
       <HintPath>..\..\packages\Xamarin.Forms.GoogleMaps.1.6.1\lib\Xamarin.iOS10\Xamarin.Forms.GoogleMaps.iOS.dll</HintPath>
     </Reference>
+    <Reference Include="SQLitePCL">
+      <HintPath>..\..\packages\SQLitePCL.3.8.7.2\lib\Xamarin.iOS10\SQLitePCL.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCL.Ext">
+      <HintPath>..\..\packages\SQLitePCL.3.8.7.2\lib\Xamarin.iOS10\SQLitePCL.Ext.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\reQuest\reQuest.csproj">

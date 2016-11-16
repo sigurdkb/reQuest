@@ -72,7 +72,7 @@
               Grid.Row="2">
 -->      <ListView.ItemTemplate>
         <DataTemplate>
-          <ImageCell ImageSource="maps-icon.png"
+          <ImageCell ImageSource="{Binding Uri}"
                      Text="{Binding Title}">
           </ImageCell>
         </DataTemplate>

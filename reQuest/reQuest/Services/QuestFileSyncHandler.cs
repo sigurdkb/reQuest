@@ -8,6 +8,8 @@ using Microsoft.WindowsAzure.MobileServices.Files;
 using Microsoft.WindowsAzure.MobileServices.Files.Metadata;
 using Xamarin.Forms;
 using reQuest.Interfaces;
+using PCLStorage;
+using System.Diagnostics;
 
 namespace reQuest.Services
 {
@@ -29,7 +31,12 @@ namespace reQuest.Services
         {
             if (action == FileSynchronizationAction.Delete)
             {
-                await FileHelper.DeleteLocalFileAsync(file);
+				IFolder rootFolder = FileSystem.Current.LocalStorage;
+				IFolder reQuestFolder = await rootFolder.CreateFolderAsync("reQuest", CreationCollisionOption.OpenIfExists);
+				IFile imageFile = await reQuestFolder.GetFileAsync(file.ParentId + ".jpg");
+				Debug.WriteLine($"QuestFileSyncHandler:ProcessFileSynchronizationAction: {imageFile.Path}");
+
+				await imageFile.DeleteAsync();
             }
             else
             { // Create or update. We're aggressively downloading all files.

@@ -45,6 +45,8 @@ namespace reQuest.iOS
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			Xamarin.FormsGoogleMaps.Init("AIzaSyDitF8S4q5FZjklRCT-RyuP4-KfuCMrgI4");
 
+			SQLitePCL.CurrentPlatform.Init();
+
             App.Init(this);
 
             LoadApplication(new reQuest.App());

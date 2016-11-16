@@ -20,5 +20,8 @@ namespace reQuest.Models
         [JsonProperty(PropertyName = "timeLimit")]
         public TimeSpan TimeLimit { get; set; }
 
+		//public string ImagePath { get; set; }
+
+
     }
 }

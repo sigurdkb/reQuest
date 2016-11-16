@@ -11,12 +11,12 @@ namespace reQuest.Interfaces
 {
     public interface IPlatform
     {
-        Task<string> GetQuestFilesPathAsync();
+        //Task<string> GetQuestFilesPathAsync();
 
         Task<IMobileServiceFileDataSource> GetFileDataSource(MobileServiceFileMetadata metadata);
 
         //Task<string> TakePhotoAsync(object context);
 
-        Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file, string filename);
+        Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file);
     }
 }

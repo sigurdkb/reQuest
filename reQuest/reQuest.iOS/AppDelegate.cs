@@ -63,7 +63,7 @@ namespace reQuest.iOS
                 // Sign in with Microsoft login using a server-managed flow.
                 if (user == null)
                 {
-                    user = await reQuestService.DefaultManager.CurrentClient.LoginAsync(UIApplication.SharedApplication.KeyWindow.RootViewController,
+					user = await reQuestService.Instance.CurrentClient.LoginAsync(UIApplication.SharedApplication.KeyWindow.RootViewController,
                                     MobileServiceAuthenticationProvider.MicrosoftAccount);
                     if (user != null)
                     {

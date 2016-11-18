@@ -34,7 +34,8 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <Entry Grid.Row="0" x:Name="title" Placeholder="reQuest title" />
-    <Image Grid.Column="0" Grid.Row="1" x:Name="image" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Source="reQuest-Logo.png" />
+	<Picker x:Name="topic" Title="Select Topic" />
+    <Image Grid.Column="0" Grid.Row="1" x:Name="image" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
     <Button Grid.Column="0" Grid.Row="2" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcquireClicked" />
 <!--    <Button Grid.Row="3" Clicked="OnAdd" Text="Add reQuest"></Button>
 -->

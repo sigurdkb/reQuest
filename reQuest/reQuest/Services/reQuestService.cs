@@ -20,32 +20,62 @@ namespace reQuest.Services
 {
     public class reQuestService
     {
-        private static reQuestService defaultInstance = new reQuestService();
+		const string applicationURL = "https://requestbackend.azurewebsites.net";
+		const string localDbStore = "localrequeststore.db";
+
+        private static reQuestService instance = new reQuestService();
         private MobileServiceClient client;
 
-        private IMobileServiceSyncTable<Quest> questTable;
+		private Player player;
 
-        public static reQuestService DefaultManager
+		private IMobileServiceSyncTable<Topic> topics;
+		private IMobileServiceSyncTable<Player> players;
+		private IMobileServiceSyncTable<Quest> quests;
+
+		private static Object currentDownloadTaskLock = new Object();
+		private static Task currentDownloadTask = Task.FromResult(0);
+
+
+        public static reQuestService Instance
         {
-            get { return defaultInstance; }
-            set { defaultInstance = value; }
+			get { return instance; }
+			set { instance = value; }
         }
         public MobileServiceClient CurrentClient
         {
             get { return client; }
         }
 
-        public reQuestService()
+		public Player CurrentPlayer
+		{
+			get { return player; }
+			//set { player = value; }
+		}
+
+		public List<Topic> Topics { get; private set; }
+		public List<Player> Players { get; private set; }
+		public List<Quest> Quests { get; private set; }
+
+
+
+		public reQuestService()
         {
-            client = new MobileServiceClient("https://requestbackend.azurewebsites.net");
-            var questStore = new MobileServiceSQLiteStore("localqueststore.db");
-            questStore.DefineTable<Quest>();
+            client = new MobileServiceClient(applicationURL);
+            var reQuestStore = new MobileServiceSQLiteStore(localDbStore);
 
-            client.InitializeFileSyncContext(new QuestFileSyncHandler(this), questStore);
-            client.SyncContext.InitializeAsync(questStore, StoreTrackingOptions.NotifyLocalAndServerOperations);
+			reQuestStore.DefineTable<Topic>();
+			reQuestStore.DefineTable<Player>();
+			reQuestStore.DefineTable<Quest>();
 
-            this.questTable = client.GetSyncTable<Quest>();
-        }
+            client.InitializeFileSyncContext(new QuestFileSyncHandler(this), reQuestStore);
+            client.SyncContext.InitializeAsync(reQuestStore, StoreTrackingOptions.NotifyLocalAndServerOperations);
+
+			topics = client.GetSyncTable<Topic>();
+			players= client.GetSyncTable<Player>();
+			quests = client.GetSyncTable<Quest>();
+
+			//RefreshDataAsync();
+    }
 
 		public async Task<string> GetUserSid()
 		{
@@ -53,56 +83,98 @@ namespace reQuest.Services
 			return result;
 		}
 
-		public async Task<IEnumerable<Player>> GetPlayers()
+		//public async Task<IEnumerable<Player>> GetPlayers()
+		//{
+		//	IMobileServiceTable<Player> table = client.GetTable<Player>();
+		//	var players = await table.ReadAsync();
+		//	return players;
+		//}
+
+		public bool SetCurrentPlayer(string externalId)
 		{
-			IMobileServiceTable<Player> table = client.GetTable<Player>();
-			var players = await table.ReadAsync();
-			return players;
+			player = Players.FirstOrDefault(p => p.ExternalId == externalId);
+
+			return player != null;
 		}
 
-		public async Task<Player> UpdatePlayer(Player player)
+		//public async Task<Player> UpdatePlayer(Player player)
+		//{
+		//	IMobileServiceTable<Player> table = client.GetTable<Player>();
+		//	await table.UpdateAsync(player);
+		//	return await table.LookupAsync(player.Id);
+		//}
+
+		public async Task RefreshDataAsync(bool sync = false)
 		{
-			IMobileServiceTable<Player> table = client.GetTable<Player>();
-			await table.UpdateAsync(player);
-			return await table.LookupAsync(player.Id);
+			if (sync)
+			{
+				await SyncAsync();
+			}
+
+			IMobileServiceTableQuery<Player> playerQuery = players.CreateQuery();
+			var playerParameters = new Dictionary<string, string>() { { "$expand", "Competencies" } };
+			IMobileServiceTableQuery<Quest> questQuery = quests.CreateQuery();
+			var questParameters = new Dictionary<string, string>() { { "$expand", "Topic,Owner" } };
+
+			try
+			{
+				Topics = await topics.ToListAsync();
+				IEnumerable<Player> expandedPlayers = await players.ReadAsync<Player>(playerQuery.WithParameters(playerParameters));
+				Players = expandedPlayers.ToList();
+				IEnumerable<Quest> expandedQuests = await quests.ReadAsync<Quest>(questQuery.WithParameters(questParameters));
+				Quests = expandedQuests.ToList();
+			}
+
+			catch (MobileServiceInvalidOperationException ex)
+			{
+				Debug.WriteLine($"Invalid sync operation: {ex.Message}");
+			}
+			catch (Exception ex)
+			{ 
+				Debug.WriteLine($"Refresh error: {ex.Message}");
+				
+			}
 		}
 
-        public async Task<ObservableCollection<Quest>> GetQuestsAsync(bool syncItems = false)
-        {
-            try
-            {
-                if (syncItems)
-                {
-                    await this.SyncAsync();
-                }
-				IMobileServiceTableQuery<Quest> questQuery = questTable.CreateQuery();
-				var questParameters = new Dictionary<string, string>() { { "$expand", "Topic,Owner" } };
-				IEnumerable<Quest> expandedQuests = await questTable.ReadAsync<Quest>(questQuery.WithParameters(questParameters));
 
-				return new ObservableCollection<Quest>(expandedQuests);
-				//IEnumerable<Quest> items = await questTable.ToEnumerableAsync();
-				//return new ObservableCollection<Quest>(items);
-            }
-            catch (MobileServiceInvalidOperationException msioe)
-            {
-                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(@"Sync error: {0}", e.Message);
-            }
-            return null;
-        }
+
+    //    public async Task<ObservableCollection<Quest>> GetQuestsAsync(bool syncItems = false)
+    //    {
+    //        try
+    //        {
+    //            if (syncItems)
+    //            {
+    //                await this.SyncAsync();
+    //            }
+
+				//IMobileServiceTableQuery<Quest> questQuery = quests.CreateQuery();
+				//var questParameters = new Dictionary<string, string>() { { "$expand", "Topic,Owner" } };
+				//IEnumerable<Quest> expandedQuests = await quests.ReadAsync<Quest>(questQuery.WithParameters(questParameters));
+
+				//return new ObservableCollection<Quest>(expandedQuests);
+				////IEnumerable<Quest> items = await questTable.ToEnumerableAsync();
+				////return new ObservableCollection<Quest>(items);
+    //        }
+    //        catch (MobileServiceInvalidOperationException msioe)
+    //        {
+    //            Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+    //        }
+    //        catch (Exception e)
+    //        {
+    //            Debug.WriteLine(@"Sync error: {0}", e.Message);
+    //        }
+    //        return null;
+    //    }
 
         public async Task SaveQuestAsync(Quest item)
         {
             if (item.Id == null)
             {
-                await questTable.InsertAsync(item);
+				await quests.InsertAsync(item);
             }
             else
             {
-                await questTable.UpdateAsync(item);
+				await quests.UpdateAsync(item);
             }
         }
 
@@ -112,15 +184,13 @@ namespace reQuest.Services
 
             try
             {
-                await this.client.SyncContext.PushAsync();
+				await client.SyncContext.PushAsync();
+				await quests.PushFileChangesAsync();
 
-                await this.questTable.PushFileChangesAsync();
-
-                await this.questTable.PullAsync(
-                    //The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
-                    //Use a different query name for each unique query in your program
-                    "allQuestItems",
-                    this.questTable.CreateQuery());
+				await topics.PullAsync("allTopics", topics.CreateQuery());
+				await players.PullAsync("allPlayers", players.CreateQuery());
+				await quests.PullAsync("allQuests", quests.CreateQuery());
+				
             }
             catch (MobileServicePushFailedException exc)
             {
@@ -152,27 +222,39 @@ namespace reQuest.Services
             }
         }
 
-        internal async Task DownloadFileAsync(MobileServiceFile file)
+		internal Task DownloadFileAsync(MobileServiceFile file)
+		{
+			lock (currentDownloadTaskLock)
+			{
+				return currentDownloadTask =
+					currentDownloadTask.ContinueWith(x => DoDownloadFileAsync(file)).Unwrap();
+			}
+		}
+
+
+		internal async Task DoDownloadFileAsync(MobileServiceFile file)
         {
 			IPlatform platform = DependencyService.Get<IPlatform>();
 
-            await platform.DownloadFileAsync(this.questTable, file);
+			await platform.DownloadFileAsync(this.quests, file);
         }
+
+
 
         internal async Task<MobileServiceFile> AddImage(Quest quest, string imagePath)
         {
 			Debug.WriteLine($"reQuestService:AddImage: {imagePath}");
-			return await this.questTable.AddFileAsync(quest, imagePath);
+			return await this.quests.AddFileAsync(quest, imagePath);
 		}
 
         internal async Task DeleteImage(Quest quest, MobileServiceFile file)
         {
-            await this.questTable.DeleteFileAsync(file);
+			await this.quests.DeleteFileAsync(file);
         }
 
         internal async Task<IEnumerable<MobileServiceFile>> GetImageFilesAsync(Quest quest)
         {
-            return await this.questTable.GetFilesAsync(quest);
+			return await this.quests.GetFilesAsync(quest);
         }
 
 	}

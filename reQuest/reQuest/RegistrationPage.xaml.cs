@@ -28,7 +28,7 @@ namespace reQuest
 		{
 			if (authenticated)
 			{
-				var sid = await reQuestService.DefaultManager.GetUserSid();
+				var sid = await reQuestService.Instance.GetUserSid();
 				registrationViewModel.ExternalID = sid.ToString();
 			}
 		}

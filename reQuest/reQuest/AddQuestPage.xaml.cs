@@ -29,7 +29,7 @@ namespace reQuest
         {
             InitializeComponent();
             //this.BindingContext = QuestViewModel;
-            service = reQuestService.DefaultManager;
+			service = reQuestService.Instance;
 
         }
 
@@ -53,8 +53,8 @@ namespace reQuest
    //     }
 
 		public async void OnAcquireClicked(object sender, EventArgs e)
-		{ 
-			var quest = new Quest { Title = title.Text };
+		{
+			var quest = new Quest { Title = title.Text, Owner = service.CurrentPlayer };
 			await service.SaveQuestAsync(quest);
 
 			await CrossMedia.Current.Initialize();
@@ -72,13 +72,8 @@ namespace reQuest
 			if (file == null)
 				return;
 
-			Debug.WriteLine($"File Location: {file.Path}");
+			Debug.WriteLine($"AddQuestPage:OnAcquireClicked:file.Path: {file.Path}");
 			//QuestViewModel.Uri = file.Path;
-
-			var msfile = await this.service.AddImage(quest, file.Path);
-			Debug.WriteLine($"msfile: {msfile.StoreUri}");
-
-
 
 			//image.Source = ImageSource.FromUri(new Uri(file.Path));
 			image.Source = ImageSource.FromStream(() =>

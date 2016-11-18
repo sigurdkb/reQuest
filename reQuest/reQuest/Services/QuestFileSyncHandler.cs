@@ -32,7 +32,7 @@ namespace reQuest.Services
             if (action == FileSynchronizationAction.Delete)
             {
 				IFolder rootFolder = FileSystem.Current.LocalStorage;
-				IFolder reQuestFolder = await rootFolder.CreateFolderAsync("reQuest", CreationCollisionOption.OpenIfExists);
+				IFolder reQuestFolder = await rootFolder.CreateFolderAsync(System.IO.Path.Combine("..", "Documents", "reQuest"), CreationCollisionOption.OpenIfExists);
 				IFile imageFile = await reQuestFolder.GetFileAsync(file.ParentId + ".jpg");
 				Debug.WriteLine($"QuestFileSyncHandler:ProcessFileSynchronizationAction: {imageFile.Path}");
 

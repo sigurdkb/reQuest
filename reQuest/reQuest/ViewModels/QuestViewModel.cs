@@ -17,6 +17,7 @@ namespace reQuest.ViewModels
 {
     public class QuestViewModel : INotifyPropertyChanged
     {
+		private string Id;
         private Player owner;
         private string title;
         private Topic topic;
@@ -79,15 +80,22 @@ namespace reQuest.ViewModels
 		}
 
         public QuestViewModel(Quest quest)
-        {
+		{
+			Id = quest.Id;
 			owner = quest.Owner;
 			title = quest.Title;
 			topic = quest.Topic;
 			timeLimit = quest.TimeLimit;
 
 			IFolder rootFolder = FileSystem.Current.LocalStorage;
-			uri = System.IO.Path.Combine(rootFolder.Path, "reQuest", quest.Id + ".jpg");
-			Debug.WriteLine($"QuestViewModel:QuestViewModel: {uri}");
+			//Debug.WriteLine($"QuestViewModel:QuestViewModel:rootFolder: {rootFolder.Path}");
+
+			var reQuestFolder = System.IO.Path.Combine(rootFolder.Path, "..", "Documents", "reQuest");
+			//Debug.WriteLine($"QuestViewModel:QuestViewModel:reQuestFolder: {reQuestFolder}");
+
+			                                                  
+			uri = System.IO.Path.Combine(reQuestFolder, quest.Id + ".jpg");
+			Debug.WriteLine($"QuestViewModel:QuestViewModel:uri: {uri}");
 
 
         }
@@ -98,5 +106,6 @@ namespace reQuest.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

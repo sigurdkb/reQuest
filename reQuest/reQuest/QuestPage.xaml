@@ -9,6 +9,7 @@
                 Android="0, 0, 0, 0"
                 WinPhone="0, 0, 0, 0" />
       </ContentPage.Padding>
+		<Image Source="{Binding Uri}" />
       <Label Text="{Binding Title}" />
     </StackLayout>>
 </ContentPage>

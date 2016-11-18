@@ -12,7 +12,7 @@ namespace reQuest
 		[JsonProperty(PropertyName = "externalId")]
 		public string ExternalId { get; set; }
 		[JsonProperty(PropertyName = "competencies")]
-		public IList<Competency> Competencies { get; set; } = new List<Competency>();
+		public List<Topic> Competencies { get; set; } = new List<Topic>();
 		[JsonProperty(PropertyName = "score")]
 		public double Score { get; set; }
 		[JsonProperty(PropertyName = "longitude")]

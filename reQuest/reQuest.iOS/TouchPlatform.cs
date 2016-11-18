@@ -17,20 +17,28 @@ namespace reQuest.iOS
 {
     class TouchPlatform : IPlatform
     {
+
         public async Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file)
         {
 			IFolder rootFolder = FileSystem.Current.LocalStorage;
-			IFolder reQuestFolder = await rootFolder.CreateFolderAsync("reQuest", CreationCollisionOption.OpenIfExists);
-			string path = System.IO.Path.Combine(reQuestFolder.Path, file.ParentId + ".jpg");
-			Debug.WriteLine($"TouchPlatform:DownloadFileAsync: {path}");
+			IFolder reQuestFolder = await rootFolder.CreateFolderAsync(System.IO.Path.Combine("..", "Documents", "reQuest"), CreationCollisionOption.OpenIfExists);
 
-			await table.DownloadFileAsync(file, path);
-        }
+			string tempPath = System.IO.Path.Combine(reQuestFolder.Path, "temp.jpg");
+			Debug.WriteLine($"TouchPlatform:DownloadFileAsync:tempPath: {tempPath}");
+
+			await table.DownloadFileAsync(file, tempPath);
+
+			//string path = System.IO.Path.Combine(reQuestFolder.Path, file.ParentId + ".jpg");
+			//Debug.WriteLine($"TouchPlatform:DownloadFileAsync:path: {path}");
+
+			IFile tempFile = await reQuestFolder.GetFileAsync("temp.jpg");
+			await tempFile.RenameAsync(file.ParentId + ".jpg", NameCollisionOption.ReplaceExisting);
+		}
 
         public async Task<IMobileServiceFileDataSource> GetFileDataSource(MobileServiceFileMetadata metadata)
         {
 			IFolder rootFolder = FileSystem.Current.LocalStorage;
-			IFolder reQuestFolder = await rootFolder.CreateFolderAsync("reQuest", CreationCollisionOption.OpenIfExists);
+			IFolder reQuestFolder = await rootFolder.CreateFolderAsync(System.IO.Path.Combine("..", "Documents", "reQuest"), CreationCollisionOption.OpenIfExists);
 			string path = System.IO.Path.Combine(reQuestFolder.Path, metadata.ParentDataItemId + ".jpg");
 			Debug.WriteLine($"TouchPlatform:GetFileDataSource: {path}");
 

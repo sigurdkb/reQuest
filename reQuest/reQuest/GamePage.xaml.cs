@@ -27,7 +27,7 @@ namespace reQuest
 
 		async Task<IEnumerable<Player>> UpdateGame()
 		{
-			var players = await reQuest.Services.reQuestService.DefaultManager.GetPlayers();
+			var players = reQuest.Services.reQuestService.Instance.Players;
 
 			GameMap.Pins.Clear();
 
@@ -87,7 +87,7 @@ namespace reQuest
 					Longitude = e.Longitude
 				};
 
-				player = await reQuest.Services.reQuestService.DefaultManager.UpdatePlayer(player);
+				//player = await reQuest.Services.reQuestService.Instance.UpdatePlayer(player);
 
 			}
 

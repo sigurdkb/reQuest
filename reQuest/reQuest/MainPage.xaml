@@ -65,7 +65,7 @@
           </StackLayout>
         </Grid>
       </StackLayout>-->
-      <ListView x:Name="questList" IsPullToRefreshEnabled="true" Refreshing="OnRefresh" Grid.Row="1">
+      <ListView x:Name="questList" ItemSelected="OnSelection" IsPullToRefreshEnabled="true" Refreshing="OnRefresh" Grid.Row="1">
 <!--		    <ListView x:Name="imagesList"
               ItemsSource="{Binding Images}"
               IsPullToRefreshEnabled="false"

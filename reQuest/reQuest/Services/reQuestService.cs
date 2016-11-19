@@ -83,18 +83,19 @@ namespace reQuest.Services
 			return result;
 		}
 
-		//public async Task<IEnumerable<Player>> GetPlayers()
-		//{
-		//	IMobileServiceTable<Player> table = client.GetTable<Player>();
-		//	var players = await table.ReadAsync();
-		//	return players;
-		//}
-
 		public bool SetCurrentPlayer(string externalId)
 		{
 			player = Players.FirstOrDefault(p => p.ExternalId == externalId);
 
 			return player != null;
+		}
+		public async void SetCurrentPosition(double latitude, double longitude) 
+		{
+			player.Latitude = latitude;
+			player.Longitude = longitude;
+			await SavePlayerAsync(player);
+			Debug.WriteLine($"Position: {latitude},{longitude}");
+
 		}
 
 		//public async Task<Player> UpdatePlayer(Player player)
@@ -168,19 +169,32 @@ namespace reQuest.Services
     //        return null;
     //    }
 
-        public async Task SaveQuestAsync(Quest item)
-        {
-            if (item.Id == null)
-            {
-				await quests.InsertAsync(item);
-            }
-            else
-            {
-				await quests.UpdateAsync(item);
-            }
-        }
+        public async Task SaveQuestAsync(Quest quest)
+		{
+			if (quest.Id == null)
+			{
+				await quests.InsertAsync(quest);
+			}
+			else
+			{
+				await quests.UpdateAsync(quest);
+			}
+		}
 
-        public async Task SyncAsync()
+		public async Task SavePlayerAsync(Player player)
+		{
+			if (player.Id == null)
+			{
+				await players.InsertAsync(player);
+			}
+			else
+			{
+				await players.UpdateAsync(player);
+			}
+		}
+
+
+		public async Task SyncAsync()
         {
             ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 

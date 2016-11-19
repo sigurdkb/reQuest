@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-		xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-		x:Class="reQuest.GamePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps" x:Class="reQuest.GamePage">
 	<ContentPage.Content>
-	    <StackLayout>
+		<StackLayout>
 			<StackLayout.Padding>
-      		<OnPlatform x:TypeArguments="Thickness"
-                  iOS="0, 20, 0, 0"
-                  Android="0, 0, 0, 0"
-                  WinPhone="0, 0, 0, 0" />
-    		</StackLayout.Padding>
-
-	    	<maps:Map VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-	        x:Name="GameMap"
-	        IsShowingUser="true"
-	        MapType="Street"
-	    	/>
+				<OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" Android="0, 0, 0, 0" WinPhone="0, 0, 0, 0" />
+			</StackLayout.Padding>
+			<maps:Map VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="GameMap" IsShowingUser="true" MapType="Street" />
 			<StackLayout MinimumHeightRequest="35" Orientation="Horizontal">
-				<Label Text="Target? " />
-				<Switch x:Name="Target" IsToggled="false" />
-				<Label Text="Distance: " />
+				<Label Text="Target:" />
+				<Label Text="{Binding Owner.ExternalId} " />
+				<Label Text="Distance:" />
 				<Label Text="{Binding DistanceToTarget}" />
-
-    		</StackLayout>
+			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

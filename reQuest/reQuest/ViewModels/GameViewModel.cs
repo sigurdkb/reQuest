@@ -7,10 +7,22 @@ namespace reQuest
 {
 	public class GameViewModel : INotifyPropertyChanged
 	{
-		double distanceToTarget;
+		private double distanceToTarget;
+		private Player owner;
 
-		public string Player { get; set; }
-		public string Target { get; set; }
+		public Player Owner
+		{
+			get { return owner; }
+			set
+			{
+				if (owner != value)
+				{
+					owner = value;
+					OnPropertyChanged(nameof(Owner));
+				}
+			}
+		}
+
 		public double DistanceToTarget
 		{
 			get { return distanceToTarget; }

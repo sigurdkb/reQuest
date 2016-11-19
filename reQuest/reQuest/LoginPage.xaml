@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="reQuest.LoginPage">
 
 	<ContentPage.Content>
-		<StackLayout>
+		<StackLayout >
 			<StackLayout.Padding>
       		<OnPlatform x:TypeArguments="Thickness"
                   iOS="0, 20, 0, 0"
@@ -11,10 +11,10 @@
     		</StackLayout.Padding>
     		<Image Source="reQuest-Logo.png" />
 			<Entry x:Name="username" Text="sigurdkb" Placeholder="Username" />
-			<Entry x:Name="password" Placeholder="Password" IsPassword="true" />
+			<Entry x:Name="password" Text="somepassword" Placeholder="Password" IsPassword="true" />
 			<Button Text="Login" Clicked="onLoginClicked"/>
-			<Button Text="Forgot your password?" TextColor="Gray" FontAttributes="Italic" />
-			<Button Text="Sign Up" />
+<!--			<Button Text="Forgot your password?" TextColor="Gray" FontAttributes="Italic" />-->
+<!--			<Button Text="Sign Up" />-->
 		</StackLayout>
 
 	</ContentPage.Content>

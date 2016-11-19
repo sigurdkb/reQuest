@@ -93,8 +93,6 @@ namespace reQuest.iOS
 
 			CLBeaconRegion region = new CLBeaconRegion(uuid, beaconID);
 			locationManager.StartRangingBeacons(region);
-			locationManager.DesiredAccuracy = 10;
-			locationManager.StartUpdatingLocation();
 
 		}
 
@@ -129,12 +127,13 @@ namespace reQuest.iOS
 
 		public void StartLocationTracking()
 		{
-			throw new NotImplementedException();
+			locationManager.DesiredAccuracy = 10d;
+			locationManager.DistanceFilter = 10d;
+			locationManager.StartUpdatingLocation();
 		}
 
 		public void StopLocationTracking()
 		{
-			throw new NotImplementedException();
-		}
+			locationManager.StopUpdatingLocation();		}
 	}
 }

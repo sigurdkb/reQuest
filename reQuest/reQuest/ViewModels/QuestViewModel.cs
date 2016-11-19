@@ -18,20 +18,22 @@ namespace reQuest.ViewModels
     public class QuestViewModel : INotifyPropertyChanged
     {
 		private string Id;
-        private string ownerId;
+        private Player owner;
         private string title;
-        private string topicId;
+		private Topic topic;
         private TimeSpan timeLimit;
         private string uri;
 
+		private reQuestService service;
 
-        public string OwnerId
+
+		public Player Owner
         {
-			get { return ownerId; }
+			get { return owner; }
             set
             {
-                ownerId = value;
-                OnPropertyChanged(nameof(OwnerId));
+                owner = value;
+				OnPropertyChanged(nameof(Owner));
             }
         }
         public string Title
@@ -44,13 +46,13 @@ namespace reQuest.ViewModels
             }
         }
 
-        public string TopicId
+		public Topic Topic
         {
-            get { return topicId; }
+            get { return topic; }
             set
             {
-                topicId = value;
-                OnPropertyChanged(nameof(TopicId));
+                topic = value;
+                OnPropertyChanged(nameof(Topic));
             }
         }
 
@@ -73,27 +75,22 @@ namespace reQuest.ViewModels
 			}
 		}
 
-        //public MobileServiceFile File { get; private set; }
-
 		public QuestViewModel()
 		{ 
 		}
 
         public QuestViewModel(Quest quest)
 		{
+			service = reQuestService.Instance;
+
 			Id = quest.Id;
-			ownerId = quest.OwnerId;
+			owner = service.Players.FirstOrDefault(p => p.Id == quest.OwnerId);
 			title = quest.Title;
-			topicId = quest.TopicId;
+			topic = service.Topics.FirstOrDefault(t => t.Id == quest.TopicId); 
 			timeLimit = quest.TimeLimit;
 
 			IFolder rootFolder = FileSystem.Current.LocalStorage;
-			//Debug.WriteLine($"QuestViewModel:QuestViewModel:rootFolder: {rootFolder.Path}");
-
 			var reQuestFolder = System.IO.Path.Combine(rootFolder.Path, "..", "Documents", "reQuest");
-			//Debug.WriteLine($"QuestViewModel:QuestViewModel:reQuestFolder: {reQuestFolder}");
-
-			                                                  
 			uri = System.IO.Path.Combine(reQuestFolder, quest.Id + ".jpg");
 			Debug.WriteLine($"QuestViewModel:QuestViewModel:uri: {uri}");
 

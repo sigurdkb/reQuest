@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using reQuest.Services;
+using reQuest.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 
@@ -9,89 +10,83 @@ namespace reQuest
 {
 	public partial class GamePage : ContentPage
 	{
-		Player currentPlayer = null;
-		Player currentTarget = null;
-		GameViewModel gameViewModel = new GameViewModel() { Player = "Sigurd", Target = "Jostein" };
+		private reQuestService service;
+		private GameViewModel gameViewModel;
 
-		public GamePage()
+		private bool isTarget { get; set; } = false;
+
+		public GamePage(QuestViewModel questVM, reQuestService service)
 		{
 			InitializeComponent();
+			this.service = service;
+
+			isTarget = (service.CurrentPlayer.Id == questVM.Owner.Id);
+			                  
+			gameViewModel = new GameViewModel() { Owner = questVM.Owner, DistanceToTarget = 9999d };
 			BindingContext = gameViewModel;
 		}
 
 		async override protected void OnAppearing()
 		{
 			await StartGame();
-
 		}
 
-		async Task<IEnumerable<Player>> UpdateGame()
+		async Task UpdateGame()
 		{
-			var players = reQuest.Services.reQuestService.Instance.Players;
+			await service.RefreshDataAsync(true);
 
 			GameMap.Pins.Clear();
 
-			foreach (var player in players)
+			var ownerPin = new Pin()
 			{
-				if (player.ExternalId == gameViewModel.Player)
-				{
-					currentPlayer = player;
-				}
-				else if (player.ExternalId == gameViewModel.Target)
-				{
-					currentTarget = player;
-					var pin = new Pin()
-					{
-						Label = player.ExternalId,
-						Position = new Position(player.Latitude, player.Longitude),
-						Type = PinType.SearchResult,
-					};
-					GameMap.Pins.Add(pin);
-				}
-			}
+				Label = gameViewModel.Owner.ExternalId,
+				Position = new Position(gameViewModel.Owner.Latitude, gameViewModel.Owner.Longitude),
+				Type = PinType.SearchResult,
+			};
+			GameMap.Pins.Add(ownerPin);
 
-			gameViewModel.DistanceToTarget = DistanceBetween(currentPlayer.Latitude, currentPlayer.Longitude, currentTarget.Latitude, currentTarget.Longitude);
+			var playerPin = new Pin()
+			{
+				Label = service.CurrentPlayer.ExternalId,
+				Position = new Position(service.CurrentPlayer.Latitude, service.CurrentPlayer.Longitude),
+				Type = PinType.SearchResult,
+			};
+			GameMap.Pins.Add(playerPin);
 
-			GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(currentPlayer.Latitude, currentPlayer.Longitude) , Distance.FromMeters(gameViewModel.DistanceToTarget)));
 
-			return players;
-	
+			//gameViewModel.DistanceToTarget = DistanceBetween(ownerPin.Position.Latitude, ownerPin.Position.Longitude, playerPin.Position.Latitude, playerPin.Position.Longitude);
+
+			GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(playerPin.Position, Distance.FromMeters(gameViewModel.DistanceToTarget)));
 		}
 
-		async Task<IEnumerable<Player>> StartGame()
+		async Task StartGame()
 		{
-			if (Target.IsToggled && App.Location != null)
+			if (isTarget && App.Location != null)
 			{
-				App.Location.StartBeacon("E2C56DB5-DFFB-48D2-B060-D0F5A71096E0", "reQuest");
+				App.Location.StartBeacon("E2C56DB5-DFFB-48D2-B060-D0F5A71096E0", gameViewModel.Owner.Id);
 			}
 			else
 			{
-				App.Location.StartBeaconRanging("E2C56DB5-DFFB-48D2-B060-D0F5A71096E0", "reQuest");
-				App.Location.positionChanged += HandlePositionChanged;
+				App.Location.StartBeaconRanging("E2C56DB5-DFFB-48D2-B060-D0F5A71096E0", gameViewModel.Owner.Id);
+				App.Location.collitionDetected += HandleCollisionDetected;
 			}
 
-			var result = await UpdateGame();
-
-			return result;
+			await UpdateGame();
 		}
 
-		async void HandlePositionChanged(object sender, IGPSData e)
+		async void HandleCollisionDetected(object sender, IBTData e)
 		{
-			if (currentPlayer != null)
+			gameViewModel.DistanceToTarget = e.Distance;
+
+			if (e.Distance < 1.0d)
 			{
-				var player = new Player()
-				{
-					Id = currentPlayer.Id,
-					ExternalId = currentPlayer.ExternalId,
-					Latitude = e.Latitude,
-					Longitude = e.Longitude
-				};
-
-				//player = await reQuest.Services.reQuestService.Instance.UpdatePlayer(player);
-
+				await DisplayAlert("reQuest Won!", $"{service.CurrentPlayer.ExternalId} have reached {gameViewModel.Owner.ExternalId}", "Ok");
+				await Navigation.PopAsync(true);
 			}
-
-			var result = await UpdateGame();
+			else
+			{
+				await UpdateGame();
+			}
 
 		}
 

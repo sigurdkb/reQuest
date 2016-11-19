@@ -29,11 +29,14 @@ namespace reQuest
 			NavigationPage.SetHasBackButton(this, false);
 
 			service = reQuestService.Instance;
+			App.Location.StartLocationTracking();
+			App.Location.positionChanged += HandlePositionChanged;
 
-			TeamMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(58.3341d, 8.5777d), Distance.FromMeters(100d)));
+
+			//TeamMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(58.3341d, 8.5777d), Distance.FromMeters(100d)));
         }
 
-        protected override async void OnAppearing()
+		protected override async void OnAppearing()
         {
             base.OnAppearing();
 
@@ -41,6 +44,12 @@ namespace reQuest
 
         }
 
+		void HandlePositionChanged(object sender, IGPSData e)
+		{
+			service.SetCurrentPosition(e.Latitude, e.Longitude);
+			TeamMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(e.Latitude, e.Longitude), Distance.FromMeters(100d)));
+
+		}
 
         async void onAddQuestClicked(object sender, EventArgs args)
         {
@@ -52,25 +61,15 @@ namespace reQuest
             this.CurrentPage = teamMapPage;
         }
 
-        //public async void OnView(object sender, EventArgs e)
-        //{
-        //    var mi = ((MenuItem)sender);
-        //    var quest = mi.CommandParameter as Quest;
-        //    await Navigation.PushAsync(new QuestPage(quest, service));
-        //}
-
 		async void OnSelection(object sender, SelectedItemChangedEventArgs e)
 		{
 			if (e.SelectedItem == null)
 			{
 				return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
 			}
-			//DisplayAlert("Item Selected", e.SelectedItem.ToString(), "Ok");
-			//comment out if you want to keep selections
-			ListView lst = (ListView)sender;
-			var quest = lst.SelectedItem as QuestViewModel;
+			var questVM = e.SelectedItem as QuestViewModel;
 
-			await Navigation.PushAsync(new QuestPage(quest, service));
+			await Navigation.PushAsync(new ViewQuestPage(questVM, service));
 		}
 
 

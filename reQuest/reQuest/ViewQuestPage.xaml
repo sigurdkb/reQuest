@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps" x:Class="reQuest.ViewQuestPage">
+	<ContentPage x:Name="questViewPage">
+		<ContentPage.Padding>
+			<OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" Android="0, 0, 0, 0" WinPhone="0, 0, 0, 0" />
+		</ContentPage.Padding>
+		<StackLayout>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Label Grid.Column="0" Grid.Row="0" Text="{Binding Topic.LongName}" />
+				<Label Grid.Column="0" Grid.Row="1" Text="{Binding Owner.ExternalId}" />
+				<Label Grid.Column="0" Grid.Row="2" Text="{Binding TimeLimit}" />
+				<Image Grid.Column="0" Grid.Row="3" Source="{Binding Uri}" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+				<Button Grid.Column="0" Grid.Row="4" Text="Accept" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcceptClicked" />
+			</Grid>
+		</StackLayout>
+	</ContentPage>
+	<ContentPage x:Name="questMapPage" Title="Quest Map">
+		<ContentPage.Padding>
+			<OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" Android="0, 0, 0, 0" WinPhone="0, 0, 0, 0" />
+		</ContentPage.Padding>
+		<StackLayout>
+			<maps:Map VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="QuestMap" IsShowingUser="true" MapType="Street" HasScrollEnabled="false" InputTransparent="true" />
+		</StackLayout>
+	</ContentPage>
+</CarouselPage>

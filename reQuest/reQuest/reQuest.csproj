@@ -47,8 +47,8 @@
     <Compile Include="Models\Quest.cs" />
     <Compile Include="Models\Topic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuestPage.xaml.cs">
-      <DependentUpon>QuestPage.xaml</DependentUpon>
+    <Compile Include="ViewQuestPage.xaml.cs">
+      <DependentUpon>ViewQuestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\FileHelper.cs" />
     <Compile Include="Services\QuestFileSyncHandler.cs" />
@@ -165,7 +165,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="QuestPage.xaml">
+    <EmbeddedResource Include="ViewQuestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

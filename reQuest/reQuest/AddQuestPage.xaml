@@ -2,27 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="reQuest.AddQuestPage">
-  <!--<Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-    </Grid.RowDefinitions>
-    <Entry x:Name="newQuestTitle" Placeholder="reQuest title" />
-    <Button Clicked="OnAdd" Text="Add reQuest"></Button>
-    <ListView x:Name="imagesList"
-              ItemsSource="{Binding Images}"
-              IsPullToRefreshEnabled="false"
-              Grid.Row="2">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ImageCell ImageSource="{Binding Uri}"
-                     Text="{Binding Name}">
-          </ImageCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </Grid>-->
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*" />
@@ -45,7 +24,5 @@
     </Picker>
     <Image Grid.Column="0" Grid.Row="3" x:Name="image" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
     <Button Grid.Column="0" Grid.Row="4" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcquireClicked" />
-<!--    <Button Grid.Row="3" Clicked="OnAdd" Text="Add reQuest"></Button>
--->
   </Grid>
 </ContentPage>

@@ -111,18 +111,20 @@ namespace reQuest.Services
 				await SyncAsync();
 			}
 
-			IMobileServiceTableQuery<Player> playerQuery = players.CreateQuery();
-			var playerParameters = new Dictionary<string, string>() { { "$expand", "Competencies" } };
-			IMobileServiceTableQuery<Quest> questQuery = quests.CreateQuery();
-			var questParameters = new Dictionary<string, string>() { { "$expand", "Topic,Owner" } };
+			//IMobileServiceTableQuery<Player> playerQuery = players.CreateQuery();
+			//var playerParameters = new Dictionary<string, string>() { { "$expand", "Competencies" } };
+			//IMobileServiceTableQuery<Quest> questQuery = quests.CreateQuery();
+			//var questParameters = new Dictionary<string, string>() { { "$expand", "Topic,Owner" } };
 
 			try
 			{
 				Topics = await topics.ToListAsync();
-				IEnumerable<Player> expandedPlayers = await players.ReadAsync<Player>(playerQuery.WithParameters(playerParameters));
-				Players = expandedPlayers.ToList();
-				IEnumerable<Quest> expandedQuests = await quests.ReadAsync<Quest>(questQuery.WithParameters(questParameters));
-				Quests = expandedQuests.ToList();
+				Players = await players.ToListAsync();
+				Quests = await quests.ToListAsync();
+				//IEnumerable<Player> expandedPlayers = await players.ReadAsync<Player>(playerQuery.WithParameters(playerParameters));
+				//Players = expandedPlayers.ToList();
+				//IEnumerable<Quest> expandedQuests = await quests.ReadAsync<Quest>(questQuery.WithParameters(questParameters));
+				//Quests = expandedQuests.ToList();
 			}
 
 			catch (MobileServiceInvalidOperationException ex)

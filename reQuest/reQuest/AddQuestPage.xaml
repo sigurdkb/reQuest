@@ -29,14 +29,22 @@
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Entry Grid.Row="0" x:Name="title" Placeholder="reQuest title" />
-	<Picker x:Name="topic" Title="Select Topic" />
-    <Image Grid.Column="0" Grid.Row="1" x:Name="image" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-    <Button Grid.Column="0" Grid.Row="2" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcquireClicked" />
+    <Entry Grid.Column="0" Grid.Row="0" x:Name="title" Placeholder="reQuest title" />
+	<Picker Grid.Column="0" Grid.Row="1" x:Name="topic" Title="Select Topic" />
+	<Picker Grid.Column="0" Grid.Row="2" x:Name="timeout" Title="Select Timeout" >
+		<Picker.Items>
+            <x:String>15</x:String> 
+            <x:String>30</x:String>
+            <x:String>45</x:String>
+        </Picker.Items>
+    </Picker>
+    <Image Grid.Column="0" Grid.Row="3" x:Name="image" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+    <Button Grid.Column="0" Grid.Row="4" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcquireClicked" />
 <!--    <Button Grid.Row="3" Clicked="OnAdd" Text="Add reQuest"></Button>
 -->
   </Grid>

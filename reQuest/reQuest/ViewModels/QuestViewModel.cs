@@ -18,20 +18,20 @@ namespace reQuest.ViewModels
     public class QuestViewModel : INotifyPropertyChanged
     {
 		private string Id;
-        private Player owner;
+        private string ownerId;
         private string title;
-        private Topic topic;
+        private string topicId;
         private TimeSpan timeLimit;
         private string uri;
 
 
-        public Player Owner
+        public string OwnerId
         {
-            get { return owner; }
+			get { return ownerId; }
             set
             {
-                owner = value;
-                OnPropertyChanged(nameof(Owner));
+                ownerId = value;
+                OnPropertyChanged(nameof(OwnerId));
             }
         }
         public string Title
@@ -44,13 +44,13 @@ namespace reQuest.ViewModels
             }
         }
 
-        public Topic Topic
+        public string TopicId
         {
-            get { return topic; }
+            get { return topicId; }
             set
             {
-                topic = value;
-                OnPropertyChanged(nameof(Topic));
+                topicId = value;
+                OnPropertyChanged(nameof(TopicId));
             }
         }
 
@@ -82,9 +82,9 @@ namespace reQuest.ViewModels
         public QuestViewModel(Quest quest)
 		{
 			Id = quest.Id;
-			owner = quest.Owner;
+			ownerId = quest.OwnerId;
 			title = quest.Title;
-			topic = quest.Topic;
+			topicId = quest.TopicId;
 			timeLimit = quest.TimeLimit;
 
 			IFolder rootFolder = FileSystem.Current.LocalStorage;

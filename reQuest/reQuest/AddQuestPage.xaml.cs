@@ -31,6 +31,11 @@ namespace reQuest
             //this.BindingContext = QuestViewModel;
 			service = reQuestService.Instance;
 
+			foreach (var t in service.Topics)
+			{
+				topic.Items.Add(t.LongName);
+			}
+
         }
 
    //     public async void OnAdd(object sender, EventArgs e)
@@ -54,7 +59,13 @@ namespace reQuest
 
 		public async void OnAcquireClicked(object sender, EventArgs e)
 		{
-			var quest = new Quest { Title = title.Text, Owner = service.CurrentPlayer };
+			var quest = new Quest
+			{
+				Title = title.Text,
+				OwnerId = service.CurrentPlayer.Id,
+				TopicId = service.Topics.ElementAt(topic.SelectedIndex).Id,
+				TimeLimit = new TimeSpan(0, int.Parse(timeout.Items.ElementAtOrDefault(timeout.SelectedIndex)), 0)
+			};
 			await service.SaveQuestAsync(quest);
 
 			await CrossMedia.Current.Initialize();

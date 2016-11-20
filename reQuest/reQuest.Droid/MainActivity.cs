@@ -45,7 +45,7 @@ namespace reQuest.Droid
             try
             {
                 // Sign in with Facebook login using a server-managed flow.
-                user = await reQuestService.DefaultManager.CurrentClient.LoginAsync(this,
+				user = await reQuestService.Instance.CurrentClient.LoginAsync(this,
                     MobileServiceAuthenticationProvider.MicrosoftAccount);
                 if (user != null)
                 {

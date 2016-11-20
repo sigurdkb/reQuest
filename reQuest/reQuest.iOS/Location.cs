@@ -31,6 +31,7 @@ namespace reQuest.iOS
 		public double Distance { get; set; }
 		public string BeaconUUID { get; set; }
 		public string BeaconID { get; set; }
+		public string Proximity { get; set; }
 
 	}
 
@@ -39,12 +40,10 @@ namespace reQuest.iOS
         public event EventHandler<IBTData> collitionDetected;
         public event EventHandler<IGPSData> positionChanged;
 
-
-
 		CBPeripheralManager peripheralManager;
 		CLLocationManager locationManager;
-		//GPSData gpsData;
-		//BTData btData;
+		CLBeaconRegion beaconRegion;
+		CLBeaconRegion rangingRegion;
 
 		public Location()
 		{
@@ -59,8 +58,6 @@ namespace reQuest.iOS
 
 			locationManager.DidRangeBeacons += HandleDidRangeBeacons;
             locationManager.LocationsUpdated += HandleLocationsUpdated;
-			//gpsData = new GPSData();
-			//btData = new BTData();
 
 		}
 
@@ -75,10 +72,10 @@ namespace reQuest.iOS
 				return;
 			}
 
-			CLBeaconRegion region = new CLBeaconRegion(uuid, beaconID);
-			if (region != null)
+			beaconRegion = new CLBeaconRegion(uuid, beaconID);
+			if (beaconRegion != null)
 			{
-				peripheralManager.StartAdvertising(region.GetPeripheralData(power));
+				peripheralManager.StartAdvertising(beaconRegion.GetPeripheralData(power));
 			}
 		}
 
@@ -91,15 +88,10 @@ namespace reQuest.iOS
         {
 			var uuid = new NSUuid(beaconUUID);
 
-			CLBeaconRegion region = new CLBeaconRegion(uuid, beaconID);
-			locationManager.StartRangingBeacons(region);
+			rangingRegion = new CLBeaconRegion(uuid, beaconID);
+			locationManager.StartRangingBeacons(rangingRegion);
 
 		}
-
-        public void StopBeaconRangin()
-        {
-            throw new NotImplementedException();
-        }
 
 		void HandleDidRangeBeacons(object sender, CLRegionBeaconsRangedEventArgs e)
 		{
@@ -107,8 +99,11 @@ namespace reQuest.iOS
 			{
 				var btData = new BTData();
 				btData.BeaconUUID = beacon.ProximityUuid.ToString();
-				btData.BeaconID = beacon.Proximity.ToString();
+				btData.BeaconID = e.Region.Identifier;
+				btData.Proximity = beacon.Proximity.ToString();
 				btData.Distance = beacon.Accuracy;
+				Console.WriteLine($"BeaconUUID: {btData.BeaconUUID}, Region Identifier: {btData.BeaconID}, Proximity: {btData.Proximity}, Distance: {btData.Distance}");
+
 				collitionDetected(this, btData);
 			}
 		}
@@ -122,18 +117,28 @@ namespace reQuest.iOS
 
 		public void StopBeaconRanging()
 		{
-			throw new NotImplementedException();
+			locationManager.StopRangingBeacons(rangingRegion);
 		}
 
 		public void StartLocationTracking()
 		{
-			locationManager.DesiredAccuracy = 10d;
+			locationManager.DesiredAccuracy = CLLocation.AccurracyBestForNavigation;
 			locationManager.DistanceFilter = 10d;
 			locationManager.StartUpdatingLocation();
 		}
 
 		public void StopLocationTracking()
 		{
-			locationManager.StopUpdatingLocation();		}
+			locationManager.StopUpdatingLocation();		
+		}
+
+		public double DistanceBetweenPostitions(double latA, double lonA, double latB, double lonB)
+		{
+			//throw new NotImplementedException();
+			var posA = new CLLocation(latA, lonA);
+			var posB = new CLLocation(latB, lonB);
+
+			return posA.DistanceFrom(posB);
+		}
 	}
 }

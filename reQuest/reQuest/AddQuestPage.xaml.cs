@@ -85,6 +85,7 @@ namespace reQuest
 
 			Debug.WriteLine($"AddQuestPage:OnAcquireClicked:file.Path: {file.Path}");
 			//QuestViewModel.Uri = file.Path;
+			await service.AddImage(quest, file.Path);
 
 			//image.Source = ImageSource.FromUri(new Uri(file.Path));
 			image.Source = ImageSource.FromStream(() =>

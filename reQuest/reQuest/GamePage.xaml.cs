@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using reQuest.Interfaces;
 using reQuest.Services;
 using reQuest.ViewModels;
 using Xamarin.Forms;
@@ -14,6 +15,8 @@ namespace reQuest
 		private GameViewModel gameViewModel;
 
 		private bool isTarget { get; set; } = false;
+		private bool isFinished { get; set; } = false;
+		private bool isInBTRange { get; set; } = false;
 
 		public GamePage(QuestViewModel questVM, reQuestService service)
 		{
@@ -53,8 +56,12 @@ namespace reQuest
 			};
 			GameMap.Pins.Add(playerPin);
 
+			if (!isInBTRange)
+			{
+				gameViewModel.DistanceToTarget = App.Location.DistanceBetweenPostitions(ownerPin.Position.Latitude, ownerPin.Position.Longitude, playerPin.Position.Latitude, playerPin.Position.Longitude);				
+			}
 
-			//gameViewModel.DistanceToTarget = DistanceBetween(ownerPin.Position.Latitude, ownerPin.Position.Longitude, playerPin.Position.Latitude, playerPin.Position.Longitude);
+
 
 			GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(playerPin.Position, Distance.FromMeters(gameViewModel.DistanceToTarget)));
 		}
@@ -71,15 +78,19 @@ namespace reQuest
 				App.Location.collitionDetected += HandleCollisionDetected;
 			}
 
+
 			await UpdateGame();
 		}
 
 		async void HandleCollisionDetected(object sender, IBTData e)
 		{
+			isInBTRange = true;
 			gameViewModel.DistanceToTarget = e.Distance;
 
-			if (e.Distance < 1.0d)
+			if (e.Distance < 1.0d && !isFinished)
 			{
+				isFinished = true;
+				App.Location.StopBeaconRanging();
 				await DisplayAlert("reQuest Won!", $"{service.CurrentPlayer.ExternalId} have reached {gameViewModel.Owner.ExternalId}", "Ok");
 				await Navigation.PopAsync(true);
 			}

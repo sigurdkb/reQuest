@@ -13,11 +13,11 @@ using System.Diagnostics;
 
 namespace reQuest.Services
 {
-    class QuestFileSyncHandler : IFileSyncHandler
+    class FileSyncHandler : IFileSyncHandler
     {
         private readonly reQuestService reQuestService;
 
-        public QuestFileSyncHandler(reQuestService service)
+        public FileSyncHandler(reQuestService service)
         {
             this.reQuestService = service;
         }
@@ -34,7 +34,7 @@ namespace reQuest.Services
 				IFolder rootFolder = FileSystem.Current.LocalStorage;
 				IFolder reQuestFolder = await rootFolder.CreateFolderAsync(System.IO.Path.Combine("..", "Documents", "reQuest"), CreationCollisionOption.OpenIfExists);
 				IFile imageFile = await reQuestFolder.GetFileAsync(file.ParentId + ".jpg");
-				Debug.WriteLine($"QuestFileSyncHandler:ProcessFileSynchronizationAction: {imageFile.Path}");
+				Debug.WriteLine($"QuestFileSyncHandler:ProcessFileSynchronizationAction:Delete: {imageFile.Path}");
 
 				await imageFile.DeleteAsync();
             }

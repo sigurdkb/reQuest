@@ -28,9 +28,6 @@ namespace reQuest.iOS
 
 			await table.DownloadFileAsync(file, tempPath);
 
-			//string path = System.IO.Path.Combine(reQuestFolder.Path, file.ParentId + ".jpg");
-			//Debug.WriteLine($"TouchPlatform:DownloadFileAsync:path: {path}");
-
 			IFile tempFile = await reQuestFolder.GetFileAsync("temp.jpg");
 			await tempFile.RenameAsync(file.ParentId + ".jpg", NameCollisionOption.ReplaceExisting);
 		}
@@ -42,7 +39,9 @@ namespace reQuest.iOS
 			string path = System.IO.Path.Combine(reQuestFolder.Path, metadata.ParentDataItemId + ".jpg");
 			Debug.WriteLine($"TouchPlatform:GetFileDataSource: {path}");
 
-            return new PathMobileServiceFileDataSource(path);
+			var fileDataSource = new PathMobileServiceFileDataSource(path);
+
+			return fileDataSource;
         }
 
         //public async Task<string> TakePhotoAsync(object context)

@@ -51,7 +51,7 @@
       <DependentUpon>ViewQuestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\FileHelper.cs" />
-    <Compile Include="Services\QuestFileSyncHandler.cs" />
+    <Compile Include="Services\FileSyncHandler.cs" />
     <Compile Include="Services\reQuestService.cs" />
     <Compile Include="Interfaces\ILocation.cs" />
     <Compile Include="ViewModels\LocationViewModel.cs" />

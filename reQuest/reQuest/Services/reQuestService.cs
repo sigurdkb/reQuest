@@ -67,7 +67,7 @@ namespace reQuest.Services
 			reQuestStore.DefineTable<Player>();
 			reQuestStore.DefineTable<Quest>();
 
-            client.InitializeFileSyncContext(new QuestFileSyncHandler(this), reQuestStore);
+            client.InitializeFileSyncContext(new FileSyncHandler(this), reQuestStore);
             client.SyncContext.InitializeAsync(reQuestStore, StoreTrackingOptions.NotifyLocalAndServerOperations);
 
 			topics = client.GetSyncTable<Topic>();
@@ -198,23 +198,27 @@ namespace reQuest.Services
         {
             ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 
-            try
-            {
-				await client.SyncContext.PushAsync();
+			try
+			{
 				await quests.PushFileChangesAsync();
+				await client.SyncContext.PushAsync();
 
 				await topics.PullAsync("allTopics", topics.CreateQuery());
 				await players.PullAsync("allPlayers", players.CreateQuery());
 				await quests.PullAsync("allQuests", quests.CreateQuery());
-				
-            }
-            catch (MobileServicePushFailedException exc)
-            {
-                if (exc.PushResult != null)
-                {
-                    syncErrors = exc.PushResult.Errors;
-                }
-            }
+
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
 
             // Simple error/conflict handling. A real application would handle the various errors like network conditions,
             // server conflicts and others via the IMobileServiceSyncHandler.
@@ -260,7 +264,7 @@ namespace reQuest.Services
         internal async Task<MobileServiceFile> AddImage(Quest quest, string imagePath)
         {
 			Debug.WriteLine($"reQuestService:AddImage: {imagePath}");
-			return await this.quests.AddFileAsync(quest, imagePath);
+			return await this.quests.AddFileAsync(quest, System.IO.Path.GetFileName(imagePath));
 		}
 
         internal async Task DeleteImage(Quest quest, MobileServiceFile file)

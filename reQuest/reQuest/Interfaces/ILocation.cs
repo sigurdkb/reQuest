@@ -11,6 +11,8 @@ namespace reQuest
 		double Distance { get; set; }
 		string BeaconUUID { get; set; }
 		string BeaconID { get; set; }
+		string Proximity { get; set; }
+
 	}
 
 	public interface ILocation
@@ -21,6 +23,8 @@ namespace reQuest
 		void StopBeaconRanging();
 		void StartLocationTracking();
 		void StopLocationTracking();
+
+		double DistanceBetweenPostitions(double latA, double lonA, double latB, double lonB);
 
 		event EventHandler<IGPSData> positionChanged;
 		event EventHandler<IBTData> collitionDetected;

@@ -17,15 +17,16 @@ namespace reQuest.ViewModels
 {
     public class QuestViewModel : INotifyPropertyChanged
     {
-		private string Id;
+		private reQuestService service;
+
         private Player owner;
         private string title;
 		private Topic topic;
         private TimeSpan timeLimit;
         private string uri;
 
-		private reQuestService service;
 
+		public Quest Quest;
 
 		public Player Owner
         {
@@ -83,7 +84,7 @@ namespace reQuest.ViewModels
 		{
 			service = reQuestService.Instance;
 
-			Id = quest.Id;
+			Quest = quest;
 			owner = service.Players.FirstOrDefault(p => p.Id == quest.OwnerId);
 			title = quest.Title;
 			topic = service.Topics.FirstOrDefault(t => t.Id == quest.TopicId); 

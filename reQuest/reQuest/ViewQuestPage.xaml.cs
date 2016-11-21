@@ -14,7 +14,7 @@ namespace reQuest
 	public partial class ViewQuestPage : CarouselPage
     {
         private reQuestService service;
-        public QuestViewModel QuestVM { get; set; }
+		private QuestViewModel QuestVM { get; set; }
 
         public ViewQuestPage(QuestViewModel questVM, reQuestService service)
         {
@@ -38,7 +38,7 @@ namespace reQuest
 
 		public async void OnAcceptClicked(object sender, EventArgs e)
 		{
-			await Navigation.PushAsync(new GamePage(QuestVM, service));
+			await Navigation.PushAsync(new GamePage(QuestVM.Quest, service));
 
 			
 		}

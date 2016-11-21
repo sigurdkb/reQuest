@@ -18,13 +18,15 @@ namespace reQuest
 		private bool isFinished { get; set; } = false;
 		private bool isInBTRange { get; set; } = false;
 
-		public GamePage(QuestViewModel questVM, reQuestService service)
+		public GamePage(Quest quest, reQuestService service)
 		{
 			InitializeComponent();
 			this.service = service;
 
-			isTarget = (service.CurrentPlayer.Id == questVM.Owner.Id);
-			                  
+			isTarget = (service.CurrentPlayer.Id == quest.Owner.Id);
+			var game = new Game() { QuestId = quest.Id };
+			ser
+
 			gameViewModel = new GameViewModel() { Owner = questVM.Owner, DistanceToTarget = 9999d };
 			BindingContext = gameViewModel;
 		}
@@ -60,8 +62,6 @@ namespace reQuest
 			{
 				gameViewModel.DistanceToTarget = App.Location.DistanceBetweenPostitions(ownerPin.Position.Latitude, ownerPin.Position.Longitude, playerPin.Position.Latitude, playerPin.Position.Longitude);				
 			}
-
-
 
 			GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(playerPin.Position, Distance.FromMeters(gameViewModel.DistanceToTarget)));
 		}

@@ -20,7 +20,7 @@ namespace reQuest.Services
 {
     public class reQuestService
     {
-		const string applicationURL = "https://requestbackend.azurewebsites.net";
+		const string applicationURL = @"https://requestbackend.azurewebsites.net";
 		const string localDbStore = "localrequeststore.db";
 
         private static reQuestService instance = new reQuestService();
@@ -31,6 +31,7 @@ namespace reQuest.Services
 		private IMobileServiceSyncTable<Topic> topics;
 		private IMobileServiceSyncTable<Player> players;
 		private IMobileServiceSyncTable<Quest> quests;
+		private IMobileServiceSyncTable<Quest> games;
 
 		private static Object currentDownloadTaskLock = new Object();
 		private static Task currentDownloadTask = Task.FromResult(0);
@@ -55,6 +56,8 @@ namespace reQuest.Services
 		public List<Topic> Topics { get; private set; }
 		public List<Player> Players { get; private set; }
 		public List<Quest> Quests { get; private set; }
+		public List<Game> Games { get; private set; }
+
 
 
 
@@ -66,6 +69,7 @@ namespace reQuest.Services
 			reQuestStore.DefineTable<Topic>();
 			reQuestStore.DefineTable<Player>();
 			reQuestStore.DefineTable<Quest>();
+			reQuestStore.DefineTable<Game>();
 
             client.InitializeFileSyncContext(new FileSyncHandler(this), reQuestStore);
             client.SyncContext.InitializeAsync(reQuestStore, StoreTrackingOptions.NotifyLocalAndServerOperations);
@@ -73,6 +77,7 @@ namespace reQuest.Services
 			topics = client.GetSyncTable<Topic>();
 			players= client.GetSyncTable<Player>();
 			quests = client.GetSyncTable<Quest>();
+			games = client.GetSyncTable<Game>();
 
 			//RefreshDataAsync();
     }
@@ -122,6 +127,7 @@ namespace reQuest.Services
 				Topics = await topics.ToListAsync();
 				Players = await players.ToListAsync();
 				Quests = await quests.ToListAsync();
+				Games = await games.ToListAsync();
 				//IEnumerable<Player> expandedPlayers = await players.ReadAsync<Player>(playerQuery.WithParameters(playerParameters));
 				//Players = expandedPlayers.ToList();
 				//IEnumerable<Quest> expandedQuests = await quests.ReadAsync<Quest>(questQuery.WithParameters(questParameters));
@@ -193,6 +199,18 @@ namespace reQuest.Services
 			}
 		}
 
+		public async Task SaveGameAsync(Player game)
+		{
+			if (game.Id == null)
+			{
+				await games.InsertAsync(game);
+			}
+			else
+			{
+				await games.UpdateAsync(game);
+			}
+		}
+
 
 		public async Task SyncAsync()
         {
@@ -206,6 +224,7 @@ namespace reQuest.Services
 				await topics.PullAsync("allTopics", topics.CreateQuery());
 				await players.PullAsync("allPlayers", players.CreateQuery());
 				await quests.PullAsync("allQuests", quests.CreateQuery());
+				await games.PullAsync("allGames", games.CreateQuery());
 
 			}
 			catch (MobileServicePushFailedException exc)

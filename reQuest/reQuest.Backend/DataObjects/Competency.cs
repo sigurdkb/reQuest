@@ -8,7 +8,7 @@ namespace reQuest.Backend.DataObjects
 {
     public class Competency : EntityData
     {
-        public Topic Topic { get; set; }
+        public string TopicId { get; set; }
         public double Score { get; set; }
     }
 }

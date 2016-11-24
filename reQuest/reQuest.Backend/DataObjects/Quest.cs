@@ -8,9 +8,13 @@ namespace reQuest.Backend.DataObjects
 {
     public class Quest : EntityData
     {
-        public Player Owner { get; set; }
+        public string OwnerId { get; set; }
         public string Title { get; set; }
-        public Topic Topic { get; set; }
-        public TimeSpan TimeLimit { get; set; }
+        public string Description { get; set; }
+        public string TopicId { get; set; }
+        public TimeSpan Timeout { get; set; }
+        public string AvtivePlayerIds { get; set; }
+        public string PassivePlayerIds { get; set; }
+
     }
 }

@@ -22,6 +22,13 @@ namespace reQuest
 		public string ExternalId { get; set; }
 
 		/// <summary>
+		/// Gets or sets the team identifier.
+		/// </summary>
+		/// <value>The id string of the players team.</value>
+		[JsonProperty(PropertyName = "teamId")]
+		public string TeamId { get; set; }
+
+		/// <summary>
 		/// Gets or sets the competencies.
 		/// </summary>
 		/// <value>JSON serialized List<string> containing the ids of the players competencies.</value>

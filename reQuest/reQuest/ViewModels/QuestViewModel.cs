@@ -12,98 +12,125 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using System.Diagnostics;
 using PCLStorage;
+using Newtonsoft.Json;
 
 namespace reQuest.ViewModels
 {
-    public class QuestViewModel : INotifyPropertyChanged
-    {
+	public class QuestViewModel : INotifyPropertyChanged
+	{
 		private reQuestService service;
 
-        private Player owner;
-        private string title;
+		private string title;
+		private Player owner;
 		private Topic topic;
-        private TimeSpan timeLimit;
-        private string uri;
+		private TimeSpan timeout;
+		private string uri;
+		private List<string> activePlayerIds;
+		private List<string> passivePlayerIds;
 
 
-		public Quest Quest;
+		public string QuestId { get; set; }
 
 		public Player Owner
-        {
+		{
 			get { return owner; }
-            set
-            {
-                owner = value;
+			set
+			{
+				owner = value;
 				OnPropertyChanged(nameof(Owner));
-            }
-        }
-        public string Title
-        {
-            get { return title; }
-            set
-            {
-                title = value;
-                OnPropertyChanged(nameof(Title));
-            }
-        }
+			}
+		}
+		public string Title
+		{
+			get { return title; }
+			set
+			{
+				title = value;
+				OnPropertyChanged(nameof(Title));
+			}
+		}
 
 		public Topic Topic
-        {
-            get { return topic; }
-            set
-            {
-                topic = value;
-                OnPropertyChanged(nameof(Topic));
-            }
-        }
+		{
+			get { return topic; }
+			set
+			{
+				topic = value;
+				OnPropertyChanged(nameof(Topic));
+			}
+		}
 
-        public TimeSpan TimeLimit
-        {
-            get { return timeLimit; }
-            set
-            {
-                timeLimit = value;
-                OnPropertyChanged(nameof(TimeLimit));
-            }
-        }
-        public string Uri
-        {
-            get { return uri; }
+		public TimeSpan Timeout
+		{
+			get { return timeout; }
+			set
+			{
+				timeout = value;
+				OnPropertyChanged(nameof(Timeout));
+			}
+		}
+		public string Uri
+		{
+			get { return uri; }
 			set
 			{
 				uri = value;
 				OnPropertyChanged(nameof(Uri));
 			}
 		}
-
-		public QuestViewModel()
-		{ 
+		public List<string> ActivePlayerIds
+		{
+			get { return activePlayerIds; }
+			set
+			{
+				activePlayerIds = value;
+				OnPropertyChanged(nameof(ActivePlayerIds));
+			}
+		}
+		public List<string> PassivePlayerIds
+		{
+			get { return passivePlayerIds; }
+			set
+			{
+				passivePlayerIds = value;
+				OnPropertyChanged(nameof(PassivePlayerIds));
+			}
 		}
 
-        public QuestViewModel(Quest quest)
+
+
+		public QuestViewModel()
+		{
+		}
+
+		public QuestViewModel(Quest quest)
 		{
 			service = reQuestService.Instance;
 
-			Quest = quest;
+			QuestId = quest.Id;
 			owner = service.Players.FirstOrDefault(p => p.Id == quest.OwnerId);
 			title = quest.Title;
-			topic = service.Topics.FirstOrDefault(t => t.Id == quest.TopicId); 
-			timeLimit = quest.TimeLimit;
+			topic = service.Topics.FirstOrDefault(t => t.Id == quest.TopicId);
+			timeout = quest.Timeout;
 
 			IFolder rootFolder = FileSystem.Current.LocalStorage;
 			var reQuestFolder = System.IO.Path.Combine(rootFolder.Path, "..", "Documents", "reQuest");
 			uri = System.IO.Path.Combine(reQuestFolder, quest.Id + ".jpg");
-			Debug.WriteLine($"QuestViewModel:QuestViewModel:uri: {uri}");
+			//Debug.WriteLine($"QuestViewModel:QuestViewModel:uri: {uri}");
+
+			activePlayerIds = JsonConvert.DeserializeObject<List<string>>(quest.ActivePlayerIds);
+			passivePlayerIds = JsonConvert.DeserializeObject<List<string>>(quest.PassivePlayerIds);
 
 
-        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+		}
 
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+		public event PropertyChangedEventHandler PropertyChanged;
 
-    }
+		private void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+	}
 }

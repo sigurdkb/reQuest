@@ -53,12 +53,12 @@ namespace reQuest
 			quest = service.Quests.FirstOrDefault(q => q.Id == game.QuestId);
 			owner = service.Players.FirstOrDefault(p => p.Id == quest.OwnerId);
 
-			var playerIds = JsonConvert.DeserializeObject<List<string>>(game.Players);
+			var playerIds = JsonConvert.DeserializeObject<List<string>>(game.PlayersIds);
 			foreach (var playerId in playerIds)
 			{
 				Players.Add(service.Players.FirstOrDefault(p => p.Id == playerId));
 			}
-			var participantIds = JsonConvert.DeserializeObject<List<string>>(game.Participants);
+			var participantIds = JsonConvert.DeserializeObject<List<string>>(game.ParticipantIds);
 			foreach (var participantId in participantIds)
 			{
 				Participants.Add(service.Players.FirstOrDefault(p => p.Id == participantId));
@@ -68,13 +68,13 @@ namespace reQuest
 		public void Update(Game game)
 		{
 			Players.Clear();
-			var playerIds = JsonConvert.DeserializeObject<List<string>>(game.Players);
+			var playerIds = JsonConvert.DeserializeObject<List<string>>(game.PlayersIds);
 			foreach (var playerId in playerIds)
 			{
 				Players.Add(service.Players.FirstOrDefault(p => p.Id == playerId));
 			}
 			Participants.Clear();
-			var participantIds = JsonConvert.DeserializeObject<List<string>>(game.Participants);
+			var participantIds = JsonConvert.DeserializeObject<List<string>>(game.ParticipantIds);
 			foreach (var participantId in participantIds)
 			{
 				Participants.Add(service.Players.FirstOrDefault(p => p.Id == participantId));

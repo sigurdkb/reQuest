@@ -43,7 +43,6 @@
     </Compile>
     <Compile Include="Interfaces\IAuthenticate.cs" />
     <Compile Include="Interfaces\IPlatform.cs" />
-    <Compile Include="Models\LocationData.cs" />
     <Compile Include="Models\Quest.cs" />
     <Compile Include="Models\Topic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,7 +53,6 @@
     <Compile Include="Services\FileSyncHandler.cs" />
     <Compile Include="Services\reQuestService.cs" />
     <Compile Include="Interfaces\ILocation.cs" />
-    <Compile Include="ViewModels\LocationViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
@@ -72,7 +70,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Game.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">

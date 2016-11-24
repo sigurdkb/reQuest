@@ -31,7 +31,7 @@ namespace reQuest.Services
 		private IMobileServiceSyncTable<Topic> topics;
 		private IMobileServiceSyncTable<Player> players;
 		private IMobileServiceSyncTable<Quest> quests;
-		private IMobileServiceSyncTable<Quest> games;
+		private IMobileServiceSyncTable<Game> games;
 
 		private static Object currentDownloadTaskLock = new Object();
 		private static Task currentDownloadTask = Task.FromResult(0);
@@ -199,7 +199,7 @@ namespace reQuest.Services
 			}
 		}
 
-		public async Task SaveGameAsync(Player game)
+		public async Task SaveGameAsync(Game game)
 		{
 			if (game.Id == null)
 			{

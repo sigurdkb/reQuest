@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using reQuest.Interfaces;
+using reQuest.Models;
 using reQuest.Services;
 using reQuest.ViewModels;
 using Xamarin.Forms;
@@ -13,6 +14,7 @@ namespace reQuest
 	{
 		private reQuestService service;
 		private GameViewModel gameViewModel;
+		private Quest quest;
 
 		private bool isTarget { get; set; } = false;
 		private bool isFinished { get; set; } = false;
@@ -22,17 +24,20 @@ namespace reQuest
 		{
 			InitializeComponent();
 			this.service = service;
+			this.quest = quest;
 
-			isTarget = (service.CurrentPlayer.Id == quest.Owner.Id);
-			var game = new Game() { QuestId = quest.Id };
-			ser
+			isTarget = (service.CurrentPlayer.Id == quest.OwnerId);
 
-			gameViewModel = new GameViewModel() { Owner = questVM.Owner, DistanceToTarget = 9999d };
-			BindingContext = gameViewModel;
 		}
 
 		async override protected void OnAppearing()
 		{
+			var game = new Game() { QuestId = quest.Id };
+			await service.SaveGameAsync(game);
+
+			gameViewModel = new GameViewModel(game);
+			BindingContext = gameViewModel;
+
 			await StartGame();
 		}
 
@@ -50,20 +55,20 @@ namespace reQuest
 			};
 			GameMap.Pins.Add(ownerPin);
 
-			var playerPin = new Pin()
-			{
-				Label = service.CurrentPlayer.ExternalId,
-				Position = new Position(service.CurrentPlayer.Latitude, service.CurrentPlayer.Longitude),
-				Type = PinType.SearchResult,
-			};
-			GameMap.Pins.Add(playerPin);
+			//var playerPin = new Pin()
+			//{
+			//	Label = service.CurrentPlayer.ExternalId,
+			//	Position = new Position(service.CurrentPlayer.Latitude, service.CurrentPlayer.Longitude),
+			//	Type = PinType.SearchResult,
+			//};
+			//GameMap.Pins.Add(playerPin);
 
 			if (!isInBTRange)
 			{
-				gameViewModel.DistanceToTarget = App.Location.DistanceBetweenPostitions(ownerPin.Position.Latitude, ownerPin.Position.Longitude, playerPin.Position.Latitude, playerPin.Position.Longitude);				
+				gameViewModel.DistanceToTarget = App.Location.DistanceBetweenPostitions(gameViewModel.Owner.Latitude, gameViewModel.Owner.Longitude, service.CurrentPlayer.Latitude, service.CurrentPlayer.Longitude);				
 			}
 
-			GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(playerPin.Position, Distance.FromMeters(gameViewModel.DistanceToTarget)));
+			GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(gameViewModel.Owner.Latitude, gameViewModel.Owner.Longitude), Distance.FromMeters(gameViewModel.DistanceToTarget)));
 		}
 
 		async Task StartGame()
@@ -87,7 +92,7 @@ namespace reQuest
 			isInBTRange = true;
 			gameViewModel.DistanceToTarget = e.Distance;
 
-			if (e.Distance < 1.0d && !isFinished)
+			if (e.Distance < 1.0d && e.Distance > 0 && !isFinished)
 			{
 				isFinished = true;
 				App.Location.StopBeaconRanging();

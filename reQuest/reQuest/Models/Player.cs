@@ -33,7 +33,7 @@ namespace reQuest
 		/// </summary>
 		/// <value>JSON serialized List<string> containing the ids of the players competencies.</value>
 		[JsonProperty(PropertyName = "competencies")]
-		public string Competencies { get; set; }
+		public string Competencies { get; set; } = "";
 
 		/// <summary>
 		/// Gets or sets the longitude.

@@ -20,16 +20,39 @@ namespace reQuest.ViewModels
 	{
 		private reQuestService service;
 
+		//private JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore };
+
+
 		private string title;
+		private string description;
 		private Player owner;
 		private Topic topic;
 		private TimeSpan timeout;
 		private string uri;
-		private List<string> activePlayerIds;
-		private List<string> passivePlayerIds;
-
+		private double distanceToTarget;
+		//private List<string> activePlayerIds;
+		//private List<string> passivePlayerIds;
 
 		public string QuestId { get; set; }
+
+		public string Title
+		{
+			get { return title; }
+			set
+			{
+				title = value;
+				OnPropertyChanged(nameof(Title));
+			}
+		}
+		public string Description
+		{
+			get { return description; }
+			set
+			{
+				description = value;
+				OnPropertyChanged(nameof(Description));
+			}
+		}
 
 		public Player Owner
 		{
@@ -40,16 +63,6 @@ namespace reQuest.ViewModels
 				OnPropertyChanged(nameof(Owner));
 			}
 		}
-		public string Title
-		{
-			get { return title; }
-			set
-			{
-				title = value;
-				OnPropertyChanged(nameof(Title));
-			}
-		}
-
 		public Topic Topic
 		{
 			get { return topic; }
@@ -78,24 +91,33 @@ namespace reQuest.ViewModels
 				OnPropertyChanged(nameof(Uri));
 			}
 		}
-		public List<string> ActivePlayerIds
+		public double DistanceToTarget
 		{
-			get { return activePlayerIds; }
+			get { return distanceToTarget; }
 			set
 			{
-				activePlayerIds = value;
-				OnPropertyChanged(nameof(ActivePlayerIds));
+				distanceToTarget = value;
+				OnPropertyChanged(nameof(DistanceToTarget));
 			}
 		}
-		public List<string> PassivePlayerIds
-		{
-			get { return passivePlayerIds; }
-			set
-			{
-				passivePlayerIds = value;
-				OnPropertyChanged(nameof(PassivePlayerIds));
-			}
-		}
+		//public List<string> ActivePlayerIds
+		//{
+		//	get { return activePlayerIds; }
+		//	set
+		//	{
+		//		activePlayerIds = value;
+		//		OnPropertyChanged(nameof(ActivePlayerIds));
+		//	}
+		//}
+		//public List<string> PassivePlayerIds
+		//{
+		//	get { return passivePlayerIds; }
+		//	set
+		//	{
+		//		passivePlayerIds = value;
+		//		OnPropertyChanged(nameof(PassivePlayerIds));
+		//	}
+		//}
 
 
 
@@ -110,6 +132,7 @@ namespace reQuest.ViewModels
 			QuestId = quest.Id;
 			owner = service.Players.FirstOrDefault(p => p.Id == quest.OwnerId);
 			title = quest.Title;
+			description = quest.Description;
 			topic = service.Topics.FirstOrDefault(t => t.Id == quest.TopicId);
 			timeout = quest.Timeout;
 
@@ -118,12 +141,49 @@ namespace reQuest.ViewModels
 			uri = System.IO.Path.Combine(reQuestFolder, quest.Id + ".jpg");
 			//Debug.WriteLine($"QuestViewModel:QuestViewModel:uri: {uri}");
 
-			activePlayerIds = JsonConvert.DeserializeObject<List<string>>(quest.ActivePlayerIds);
-			passivePlayerIds = JsonConvert.DeserializeObject<List<string>>(quest.PassivePlayerIds);
-
-
-
 		}
+
+		//public async Task AddCurrentPlayer()
+		//{
+		//	var quest = service.Quests.FirstOrDefault(q => q.Id == QuestId);
+
+		//	var playerIds = new List<string>();
+		//	if (quest.ActivePlayerIds.Length != 0)
+		//	{
+		//		playerIds = JsonConvert.DeserializeObject<List<string>>(quest.ActivePlayerIds, jsonSerializerSettings);
+		//	}
+
+		//	if (!playerIds.Contains(service.CurrentPlayer.Id))
+		//	{
+		//		playerIds.Add(service.CurrentPlayer.Id);
+
+		//		quest.ActivePlayerIds = JsonConvert.SerializeObject(playerIds);
+		//		await service.SaveQuestAsync(quest);
+		//	}
+
+
+		//	RefreshPlayerIds();
+		//}
+
+		//public void RefreshPlayerIds()
+		//{
+		//	var quest = service.Quests.FirstOrDefault(q => q.Id == QuestId);
+
+		//	activePlayerIds = JsonConvert.DeserializeObject<List<string>>(quest.ActivePlayerIds, jsonSerializerSettings);
+		//	passivePlayerIds = JsonConvert.DeserializeObject<List<string>>(quest.PassivePlayerIds, jsonSerializerSettings);
+
+		//}
+
+		//public async Task RegisterWin()
+		//{ 
+		//	var quest = service.Quests.FirstOrDefault(q => q.Id == QuestId);
+
+		//	quest.WinnerId = service.CurrentPlayer.Id;
+		//	await service.SaveQuestAsync(quest);
+
+
+
+		//}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

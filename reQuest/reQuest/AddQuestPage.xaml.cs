@@ -64,7 +64,7 @@ namespace reQuest
 				Title = title.Text,
 				OwnerId = service.CurrentPlayer.Id,
 				TopicId = service.Topics.ElementAt(topic.SelectedIndex).Id,
-				TimeLimit = new TimeSpan(0, int.Parse(timeout.Items.ElementAtOrDefault(timeout.SelectedIndex)), 0)
+				Timeout = new TimeSpan(0, int.Parse(timeout.Items.ElementAtOrDefault(timeout.SelectedIndex)), 0)
 			};
 			await service.SaveQuestAsync(quest);
 

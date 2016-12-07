@@ -53,7 +53,6 @@
     <Compile Include="Services\FileSyncHandler.cs" />
     <Compile Include="Services\reQuestService.cs" />
     <Compile Include="Interfaces\ILocation.cs" />
-    <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>

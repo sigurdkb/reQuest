@@ -56,14 +56,21 @@ namespace reQuest.Models
 		/// </summary>
 		/// <value>JSON serialized List<string> containing the ids of the active players.</value>
 		[JsonProperty(PropertyName = "activePlayerIds")]
-		public string ActivePlayerIds { get; set; }
+		public string ActivePlayerIds { get; set; } = "";
 
 		/// <summary>
 		/// Gets or sets the passiveplayerids
 		/// </summary>
 		/// <value>JSON serialized List<string> containing the ids of the passive players.</value>
 		[JsonProperty(PropertyName = "passivePlayerIds")]
-		public string PassivePlayerIds { get; set; }
+		public string PassivePlayerIds { get; set; } = "";
+
+		/// <summary>
+		/// Gets or sets the winnerid
+		/// </summary>
+		/// <value>The id string of the quest winner.</value>
+		[JsonProperty(PropertyName = "winnerId")]
+		public string WinnerId { get; set; }
 
     }
 }

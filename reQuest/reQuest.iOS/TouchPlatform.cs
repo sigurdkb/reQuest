@@ -23,10 +23,10 @@ namespace reQuest.iOS
 			IFolder rootFolder = FileSystem.Current.LocalStorage;
 			IFolder reQuestFolder = await rootFolder.CreateFolderAsync(System.IO.Path.Combine("..", "Documents", "reQuest"), CreationCollisionOption.OpenIfExists);
 
-			string tempPath = System.IO.Path.Combine(reQuestFolder.Path, "temp.jpg");
-			Debug.WriteLine($"TouchPlatform:DownloadFileAsync:tempPath: {tempPath}");
+			string path = System.IO.Path.Combine(reQuestFolder.Path, "temp.jpg");
+			Debug.WriteLine($"TouchPlatform:DownloadFileAsync:path: {path}");
 
-			await table.DownloadFileAsync(file, tempPath);
+			await table.DownloadFileAsync(file, path);
 
 			IFile tempFile = await reQuestFolder.GetFileAsync("temp.jpg");
 			await tempFile.RenameAsync(file.ParentId + ".jpg", NameCollisionOption.ReplaceExisting);

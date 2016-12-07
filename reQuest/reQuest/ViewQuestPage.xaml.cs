@@ -38,7 +38,7 @@ namespace reQuest
 
 		public async void OnAcceptClicked(object sender, EventArgs e)
 		{
-			await Navigation.PushAsync(new GamePage(QuestVM.Quest, service));
+			await Navigation.PushAsync(new GamePage(QuestVM, service));
 
 			
 		}

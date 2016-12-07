@@ -33,7 +33,7 @@ namespace reQuest
 		/// </summary>
 		/// <value>JSON serialized List<string> containing the ids of the team's players.</value>
 		[JsonProperty(PropertyName = "playerIds")]
-		public string PlayerIds { get; set; }
+		public string PlayerIds { get; set; } = "";
 
 	}
 }

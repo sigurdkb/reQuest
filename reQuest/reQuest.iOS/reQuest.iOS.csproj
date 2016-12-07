@@ -128,6 +128,12 @@
     <BundleResource Include="Resources\settings-icon%402x.png" />
     <BundleResource Include="Resources\settings-icon%403x.png" />
     <BundleResource Include="Resources\Launch.png" />
+    <BundleResource Include="Resources\user.png" />
+    <BundleResource Include="Resources\user%402x.png" />
+    <BundleResource Include="Resources\user%403x.png" />
+    <BundleResource Include="Resources\question.png" />
+    <BundleResource Include="Resources\question%402x.png" />
+    <BundleResource Include="Resources\question%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Google.Maps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

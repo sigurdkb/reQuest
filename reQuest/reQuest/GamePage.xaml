@@ -6,7 +6,7 @@
 				<OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" Android="0, 0, 0, 0" WinPhone="0, 0, 0, 0" />
 			</StackLayout.Padding>
 			<maps:Map VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="GameMap" IsShowingUser="true" MapType="Street" />
-			<StackLayout MinimumHeightRequest="35" Orientation="Horizontal">
+			<StackLayout x:Name="targetData" MinimumHeightRequest="35" Orientation="Horizontal">
 				<Label Text="Target:" />
 				<Label Text="{Binding Owner.ExternalId} " />
 				<Label Text="Distance:" />

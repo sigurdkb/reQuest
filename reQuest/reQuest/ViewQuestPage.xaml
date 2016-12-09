@@ -20,7 +20,7 @@
 				<Label Grid.Column="0" Grid.Row="1" Text="{Binding Owner.ExternalId}" />
 				<Label Grid.Column="0" Grid.Row="2" Text="{Binding TimeLimit}" />
 				<Image Grid.Column="0" Grid.Row="3" Source="{Binding Uri}" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-				<Button Grid.Column="0" Grid.Row="4" Text="Accept" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcceptClicked" />
+				<Button x:Name="accept" Grid.Column="0" Grid.Row="4" Text="Accept" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcceptClicked" />
 			</Grid>
 		</StackLayout>
 	</ContentPage>

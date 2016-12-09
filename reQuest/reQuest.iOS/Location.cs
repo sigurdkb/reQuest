@@ -123,7 +123,7 @@ namespace reQuest.iOS
 		public void StartLocationTracking()
 		{
 			locationManager.DesiredAccuracy = CLLocation.AccurracyBestForNavigation;
-			locationManager.DistanceFilter = 10d;
+			locationManager.DistanceFilter = 5d;
 			locationManager.StartUpdatingLocation();
 		}
 

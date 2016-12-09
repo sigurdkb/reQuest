@@ -38,26 +38,7 @@ namespace reQuest
 
         }
 
-   //     public async void OnAdd(object sender, EventArgs e)
-   //     {
-			//var quest = new Quest { Title = title.Text };
-   //         await service.SaveQuestAsync(quest);
-
-
-
-			//if (image.Source != null)
-			//{
-			//	FileHelper.GetLocalFilePathAsync(quest.Id, Path.GetFileName(QuestViewModel.Uri)).ContinueWith(x => QuestViewModel.Uri = x.Result);
-			//	Debug.WriteLine($"File Location: {QuestViewModel.Uri}");
-			//	MobileServiceFile file = await this.service.AddImage(quest, QuestViewModel.Uri);
-
-   //         }
-
-   //         //newQuestTitle.Text = string.Empty;
-   //         //newQuestTitle.Unfocus();
-   //     }
-
-		public async void OnAcquireClicked(object sender, EventArgs e)
+		public async void OnTakePhotoClicked(object sender, EventArgs e)
 		{
 			var quest = new Quest
 			{
@@ -70,11 +51,11 @@ namespace reQuest
 
 			await CrossMedia.Current.Initialize();
 
-			//if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-			//{
-			//    DisplayAlert("No Camera", ":( No camera available.", "OK");
-			//    return;
-			//}
+			if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+			{
+			    await DisplayAlert("No Camera", ":( No camera available.", "OK");
+			    return;
+			}
 			var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
 			{
 				Directory = "reQuest",
@@ -84,10 +65,8 @@ namespace reQuest
 				return;
 
 			Debug.WriteLine($"AddQuestPage:OnAcquireClicked:file.Path: {file.Path}");
-			//QuestViewModel.Uri = file.Path;
 			await service.AddImage(quest, file.Path);
 
-			//image.Source = ImageSource.FromUri(new Uri(file.Path));
 			image.Source = ImageSource.FromStream(() =>
 			{
 				var stream = file.GetStream();
@@ -95,6 +74,14 @@ namespace reQuest
 				return stream;
 			});
 
+			takePhoto.IsVisible = false;
+			done.IsVisible = true;
 		}
+
+		public async void OnDoneClicked(object sender, EventArgs e)
+		{ 
+			await Navigation.PopAsync();
+		}
+
     }
 }

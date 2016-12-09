@@ -18,11 +18,13 @@
 	<Picker Grid.Column="0" Grid.Row="2" x:Name="timeout" Title="Select Timeout" >
 		<Picker.Items>
             <x:String>15</x:String> 
+            <x:String>20</x:String>
+            <x:String>25</x:String>
             <x:String>30</x:String>
-            <x:String>45</x:String>
         </Picker.Items>
     </Picker>
     <Image Grid.Column="0" Grid.Row="3" x:Name="image" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-    <Button Grid.Column="0" Grid.Row="4" Text="Acquire Picture" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnAcquireClicked" />
+    <Button x:Name="takePhoto" Grid.Column="0" Grid.Row="4" Text="Take Photo" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnTakePhotoClicked" />
+    <Button x:Name="done" Grid.Column="0" Grid.Row="4" Text="Done" VerticalOptions="Start" HorizontalOptions="Center" Clicked="OnDoneClicked" IsVisible="false"/>	
   </Grid>
 </ContentPage>

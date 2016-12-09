@@ -43,6 +43,7 @@ namespace reQuest
 			{
 				if (isTarget)
 				{
+					targetData.IsVisible = false;
 					await ViewGame();
 				}
 				else
@@ -81,7 +82,7 @@ namespace reQuest
 			App.Location.StopBeacon();
 			var winner = service.Players.FirstOrDefault(p => p.Id == quest.WinnerId);
 
-			await DisplayAlert("reQuest Won!", $"{winner.ExternalId} have reached you", "Ok");
+			await DisplayAlert("reQuest Finished!", $"{winner.ExternalId} have reached you", "Ok");
 			await Navigation.PopAsync(true);
 		}
 
@@ -93,45 +94,53 @@ namespace reQuest
 
 			var quest = service.Quests.FirstOrDefault(q => q.Id == questVM.QuestId);
 			var playerIds = JsonConvert.DeserializeObject<List<string>>(quest.ActivePlayerIds, jsonSerializerSettings);
-			foreach (var playerId in playerIds)
+			if (playerIds != null)
 			{
-				if (playerId == service.CurrentPlayer.Id) { continue; }
-
-				var player = service.Players.FirstOrDefault(p => p.Id == playerId);
-				//var pinImage = new Image() { Source = ImageSource.FromResource("user.png") };
-
-				var playerPin = new Pin()
+				foreach (var playerId in playerIds)
 				{
-					Label = player.ExternalId,
-					Position = new Position(player.Latitude, player.Longitude),
+					if (playerId == service.CurrentPlayer.Id) { continue; }
+
+					var player = service.Players.FirstOrDefault(p => p.Id == playerId);
+					//var pinImage = new Image() { Source = ImageSource.FromResource("user.png") };
+
+					var playerPin = new Pin()
+					{
+						Label = player.ExternalId,
+						Position = new Position(player.Latitude, player.Longitude),
+						Type = PinType.SearchResult,
+						//Icon = BitmapDescriptorFactory.FromView(pinImage)
+					};
+					GameMap.Pins.Add(playerPin);
+				}
+
+			}
+
+			if (!isTarget)
+			{
+				var ownerPin = new Pin()
+				{
+					Label = questVM.Owner.ExternalId,
+					Position = new Position(questVM.Owner.Latitude, questVM.Owner.Longitude),
 					Type = PinType.SearchResult,
-					//Icon = BitmapDescriptorFactory.FromView(pinImage)
+					//Icon = BitmapDescriptorFactory.FromView(new Image() { Source = ImageSource.FromResource("question.png") } )
 				};
-				GameMap.Pins.Add(playerPin);
-			}
-
-			var ownerPin = new Pin()
-			{
-				Label = questVM.Owner.ExternalId,
-				Position = new Position(questVM.Owner.Latitude, questVM.Owner.Longitude),
-				Type = PinType.SearchResult,
-				//Icon = BitmapDescriptorFactory.FromView(new Image() { Source = ImageSource.FromResource("question.png") } )
-			};
-			GameMap.Pins.Add(ownerPin);
-
-			if (!isInBTRange)
-			{
-				questVM.DistanceToTarget = App.Location.DistanceBetweenPostitions(questVM.Owner.Latitude, questVM.Owner.Longitude, service.CurrentPlayer.Latitude, service.CurrentPlayer.Longitude);	
-				Debug.WriteLine($"GamePage:UpdateGame:questVM.DistanceToTarget: {questVM.DistanceToTarget}");
+				GameMap.Pins.Add(ownerPin);
 
 			}
+
 			if (isTarget)
 			{
 				GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(questVM.Owner.Latitude, questVM.Owner.Longitude), Distance.FromMeters(70)));
 			}
 			else
 			{
-				GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(questVM.Owner.Latitude, questVM.Owner.Longitude), Distance.FromMeters(questVM.DistanceToTarget * 5)));
+				if (!isInBTRange)
+				{
+					questVM.DistanceToTarget = App.Location.DistanceBetweenPostitions(questVM.Owner.Latitude, questVM.Owner.Longitude, service.CurrentPlayer.Latitude, service.CurrentPlayer.Longitude);
+					Debug.WriteLine($"GamePage:UpdateGame:questVM.DistanceToTarget: {questVM.DistanceToTarget}");
+
+				}
+				GameMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(questVM.Owner.Latitude, questVM.Owner.Longitude), Distance.FromMeters(questVM.DistanceToTarget * 4)));
 
 			}
 		}

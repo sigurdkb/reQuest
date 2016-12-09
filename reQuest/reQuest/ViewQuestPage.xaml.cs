@@ -33,6 +33,11 @@ namespace reQuest
 			var ownerPin = new Pin() { Position = new Position(QuestVM.Owner.Latitude, QuestVM.Owner.Longitude), Label = QuestVM.Owner.ExternalId };
 			QuestMap.Pins.Add(ownerPin);
 			QuestMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(service.CurrentPlayer.Latitude, service.CurrentPlayer.Longitude), Distance.FromMeters(100d)));
+
+			if (service.CurrentPlayer.ExternalId == QuestVM.Owner.ExternalId)
+			{
+				accept.Text = "View";
+			}
 		}
 
 

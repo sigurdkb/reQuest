@@ -101,9 +101,9 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <ITunesArtwork Include="iTunesArtwork" />
-    <ITunesArtwork Include="iTunesArtwork@2x" />
     <None Include="packages.config" />
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Icon-60%402x.png" />
@@ -134,6 +134,8 @@
     <BundleResource Include="Resources\question.png" />
     <BundleResource Include="Resources\question%402x.png" />
     <BundleResource Include="Resources\question%403x.png" />
+    <BundleResource Include="Resources\Launch%402x.png" />
+    <BundleResource Include="Resources\Launch%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Google.Maps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
